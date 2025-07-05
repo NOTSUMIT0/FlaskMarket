@@ -1,0 +1,397 @@
+{% extends 'base.html' %}
+{% block title %}
+    Welcome to DAFUQ Market
+{% endblock %}
+{% block content %}
+    <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-dark animated-bg" style="color:white" id="hero-section">
+        <div class="floating-particles"></div>
+        <div class="col-md-5 p-lg-5 mx-auto my-5 content-wrapper">
+            <h1 class="display-4 font-weight-normal glow-text" id="main-title">DAFUQ Market</h1>
+            <p class="lead font-weight-normal fade-in-text">Start purchasing products by clicking the link below</p>
+            <a class="btn btn-primary interactive-btn" href="{{ url_for('market_page') }}" id="get-started-btn">Get Started</a>
+        </div>
+        <div class="product-device box-shadow d-none d-md-block floating-device"></div>
+        <div class="product-device product-device-2 box-shadow d-none d-md-block floating-device-2"></div>
+        <div class="cursor-trail" id="cursor-trail"></div>
+    </div>
+    
+    <!-- Additional content section -->
+    <div class="container-fluid py-5" style="background: rgba(13, 20, 33, 0.8); backdrop-filter: blur(10px);">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <div class="feature-cards">
+                    <div class="card floating-card bg-transparent border-light mb-4" style="backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1);">
+                        <div class="card-body p-4">
+                            <div class="feature-icon mb-3">
+                                <i class="fas fa-shopping-cart" style="font-size: 2.5rem; color: #007bff;"></i>
+                            </div>
+                            <h4 class="text-light mb-3">Premium Products</h4>
+                            <p class="text-light opacity-75">Discover our curated collection of high-quality products that meet your every need.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card floating-card bg-transparent border-light mb-4" style="backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1);">
+                        <div class="card-body p-4">
+                            <div class="feature-icon mb-3">
+                                <i class="fas fa-shield-alt" style="font-size: 2.5rem; color: #28a745;"></i>
+                            </div>
+                            <h4 class="text-light mb-3">Secure Shopping</h4>
+                            <p class="text-light opacity-75">Shop with confidence knowing your transactions are protected by advanced security.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card floating-card bg-transparent border-light mb-4" style="backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1);">
+                        <div class="card-body p-4">
+                            <div class="feature-icon mb-3">
+                                <i class="fas fa-truck" style="font-size: 2.5rem; color: #ffc107;"></i>
+                            </div>
+                            <h4 class="text-light mb-3">Best Market For Your Accessories</h4>
+                            <p class="text-light opacity-75">Get your orders delivered quickly with our efficient shipping network.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <br>
+    <br>
+    <style>
+        /* Animated gradient background */
+        .animated-bg {
+            background: linear-gradient(-45deg, #1a1a2e, #16213e, #0f3460, #533483);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Animated page background */
+        body {
+            background: linear-gradient(-45deg, #0d1421, #1a1a2e, #16213e, #0f1419);
+            background-size: 400% 400%;
+            animation: pageGradientShift 20s ease infinite;
+            min-height: 100vh;
+        }
+
+        @keyframes pageGradientShift {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 100% 50%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating particles */
+        .floating-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .floating-particles::before,
+        .floating-particles::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-particles::before {
+            top: 20%;
+            left: 20%;
+            animation-delay: 0s;
+        }
+
+        .floating-particles::after {
+            top: 60%;
+            right: 20%;
+            animation-delay: 3s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* Content wrapper with higher z-index */
+        .content-wrapper {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Glowing text effect */
+        .glow-text {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5),
+                         0 0 20px rgba(255, 255, 255, 0.3),
+                         0 0 30px rgba(255, 255, 255, 0.2);
+            animation: pulse 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
+            to { text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+                             0 0 30px rgba(255, 255, 255, 0.6); }
+        }
+
+        /* Fade in animation for paragraph */
+        .fade-in-text {
+            opacity: 0;
+            animation: fadeIn 2s ease-in 1s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        /* Interactive button */
+        .interactive-btn {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            z-index: 10;
+        }
+
+        .interactive-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 123, 255, 0.4);
+            border-color: #fff;
+        }
+
+        .interactive-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .interactive-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Floating device animations */
+        .floating-device {
+            animation: floatDevice 4s ease-in-out infinite;
+        }
+
+        .floating-device-2 {
+            animation: floatDevice 4s ease-in-out infinite reverse;
+            animation-delay: 2s;
+        }
+
+        @keyframes floatDevice {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
+        }
+
+        /* Cursor trail effect */
+        .cursor-trail {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.8), transparent);
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        /* Ripple effect on click */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(0);
+            animation: rippleEffect 0.8s ease-out;
+            pointer-events: none;
+        }
+
+        @keyframes rippleEffect {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Hover effects for the main section */
+        #hero-section:hover .glow-text {
+            animation-duration: 1s;
+        }
+
+        /* Floating cards animation */
+        .floating-card {
+            transition: all 0.3s ease;
+            animation: cardFloat 6s ease-in-out infinite;
+            cursor: pointer;
+        }
+
+        .floating-card:nth-child(1) { animation-delay: 0s; }
+        .floating-card:nth-child(2) { animation-delay: 2s; }
+        .floating-card:nth-child(3) { animation-delay: 4s; }
+
+        .floating-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 123, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3) !important;
+        }
+
+        @keyframes cardFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* Feature icons animation */
+        .feature-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .floating-card:hover .feature-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        /* Glass morphism effect for cards */
+        .floating-card {
+            background: rgba(255, 255, 255, 0.05) !important;
+            border-radius: 15px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .floating-particles::before,
+            .floating-particles::after {
+                width: 10px;
+                height: 10px;
+            }
+            
+            .glow-text {
+                font-size: 2.5rem;
+            }
+            
+            .feature-cards .card {
+                margin-bottom: 2rem;
+            }
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cursorTrail = document.getElementById('cursor-trail');
+            const heroSection = document.getElementById('hero-section');
+            const mainTitle = document.getElementById('main-title');
+            const getStartedBtn = document.getElementById('get-started-btn');
+
+            // Cursor trail effect
+            document.addEventListener('mousemove', function(e) {
+                cursorTrail.style.left = e.clientX - 10 + 'px';
+                cursorTrail.style.top = e.clientY - 10 + 'px';
+                cursorTrail.style.opacity = '1';
+            });
+
+            document.addEventListener('mouseleave', function() {
+                cursorTrail.style.opacity = '0';
+            });
+
+            // Ripple effect on click
+            heroSection.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = 60;
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.classList.add('ripple');
+                
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 800);
+            });
+
+            // Title hover effect
+            mainTitle.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.05)';
+                this.style.transition = 'transform 0.3s ease';
+            });
+
+            mainTitle.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+
+            // Button interactive effects
+            getStartedBtn.addEventListener('mouseenter', function() {
+                this.style.background = 'linear-gradient(45deg, #0056b3, #007bff)';
+            });
+
+            getStartedBtn.addEventListener('mouseleave', function() {
+                this.style.background = 'linear-gradient(45deg, #007bff, #0056b3)';
+            });
+
+            // Add floating particles dynamically
+            function createFloatingParticle() {
+                const particle = document.createElement('div');
+                particle.style.position = 'absolute';
+                particle.style.width = Math.random() * 6 + 4 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.background = 'rgba(255, 255, 255, 0.1)';
+                particle.style.borderRadius = '50%';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = '100%';
+                particle.style.pointerEvents = 'none';
+                particle.style.animation = `floatUp ${Math.random() * 6 + 4}s linear infinite`;
+                
+                document.querySelector('.floating-particles').appendChild(particle);
+                
+                setTimeout(() => {
+                    particle.remove();
+                }, 10000);
+            }
+
+            // Create particles periodically
+            setInterval(createFloatingParticle, 2000);
+
+            // Add floating animation for particles
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes floatUp {
+                    0% {
+                        transform: translateY(0) rotate(0deg);
+                        opacity: 0;
+                    }
+                    10% {
+                        opacity: 1;
+                    }
+                    90% {
+                        opacity: 1;
+                    }
+                    100% {
+                        transform: translateY(-100vh) rotate(360deg);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+{% endblock %}

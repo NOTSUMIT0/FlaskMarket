@@ -1,0 +1,380 @@
+{% extends 'base.html' %}
+{% block title %}
+    Login Page
+{% endblock %}
+
+{% block content %}
+<body class="text-center animated-login-bg">
+    <div class="floating-particles-login"></div>
+    <div class="cursor-trail-login" id="cursor-trail-login"></div>
+    <div class="container login-container">
+        <form method="POST" class="form-signin floating-form" style="color:white" id="login-form">
+            {{ form.hidden_tag() }}
+            <img class="mb-4 login-image" src="https://res.cloudinary.com/dclznuk6u/image/upload/v1751014553/login_register_eikerd.png" alt="" id="login-img">
+            <h1 class="h3 mb-3 font-weight-normal glow-title">
+                Please Login
+            </h1>
+            <br>
+            {{ form.username.label() }}
+            {{ form.username(class="form-control interactive-input", placeholder="User Name") }}
+
+            {{ form.password.label() }}
+            {{ form.password(class="form-control interactive-input", placeholder="Password") }}
+
+            <br>
+
+
+            <div class="checkbox mb-3">
+               <h6>Do not have an account?</h6>
+               <a class="btn btn-sm btn-secondary interactive-register-btn" href="{{ url_for('register_page') }}">Register</a>
+            </div>
+
+            {{ form.submit(class="btn btn-lg btn-block btn-primary interactive-submit-btn") }}
+
+        </form>
+    </div>
+
+    <style>
+        /* Animated page background */
+        body.animated-login-bg {
+            background: linear-gradient(-45deg, #0d1421, #1a1a2e, #16213e, #0f1419, #533483);
+            background-size: 400% 400%;
+            animation: loginPageGradient 25s ease infinite;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        @keyframes loginPageGradient {
+            0% { background-position: 0% 50%; }
+            20% { background-position: 100% 50%; }
+            40% { background-position: 100% 100%; }
+            60% { background-position: 0% 100%; }
+            80% { background-position: 0% 0%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating particles for login */
+        .floating-particles-login {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .floating-particles-login::before,
+        .floating-particles-login::after {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            animation: floatLogin 8s ease-in-out infinite;
+        }
+
+        .floating-particles-login::before {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-particles-login::after {
+            top: 70%;
+            right: 10%;
+            animation-delay: 4s;
+        }
+
+        @keyframes floatLogin {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+            50% { transform: translateY(-30px) rotate(180deg); opacity: 0.8; }
+        }
+
+        /* Login container */
+        .login-container {
+            position: relative;
+            z-index: 10;
+            padding-top: 3rem;
+        }
+
+        /* Floating form */
+        .floating-form {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            animation: formFloat 6s ease-in-out infinite;
+            transition: all 0.3s ease;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        @keyframes formFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .floating-form:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 123, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Login image */
+        .login-image {
+            width: 80px;
+            height: 80px;
+            transition: all 0.3s ease;
+            border-radius: 50%;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .login-image:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 15px 35px rgba(0, 123, 255, 0.3);
+        }
+
+        /* Glowing title */
+        .glow-title {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5),
+                         0 0 20px rgba(255, 255, 255, 0.3);
+            animation: titlePulse 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes titlePulse {
+            from { text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
+            to { text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+                             0 0 30px rgba(255, 255, 255, 0.4); }
+        }
+
+        /* Interactive inputs */
+        .interactive-input {
+            background: rgba(255, 255, 255, 0.1) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            color: white !important;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .interactive-input:focus {
+            background: rgba(255, 255, 255, 0.15) !important;
+            border-color: #007bff !important;
+            box-shadow: 0 0 15px rgba(0, 123, 255, 0.3) !important;
+            transform: scale(1.02);
+        }
+
+        .interactive-input::placeholder {
+            color: rgba(255, 255, 255, 0.7) !important;
+        }
+
+        /* Interactive buttons */
+        .interactive-register-btn {
+            background: rgba(108, 117, 125, 0.8) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .interactive-register-btn:hover {
+            background: rgba(108, 117, 125, 1) !important;
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(108, 117, 125, 0.4);
+        }
+
+        .interactive-submit-btn {
+            background: linear-gradient(45deg, #007bff, #0056b3) !important;
+            border: none !important;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .interactive-submit-btn:hover {
+            background: linear-gradient(45deg, #0056b3, #007bff) !important;
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 123, 255, 0.4);
+        }
+
+        .interactive-submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .interactive-submit-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Cursor trail for login */
+        .cursor-trail-login {
+            position: fixed;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.6), transparent);
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        /* Ripple effect */
+        .ripple-login {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(0);
+            animation: rippleLoginEffect 0.6s ease-out;
+            pointer-events: none;
+        }
+
+        @keyframes rippleLoginEffect {
+            to {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
+
+        /* Label styling */
+        label {
+            color: rgba(255, 255, 255, 0.9) !important;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            text-align: left;
+            display: block;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .floating-form {
+                margin: 1rem;
+                padding: 2rem 1.5rem;
+            }
+            
+            .login-image {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .floating-particles-login::before,
+            .floating-particles-login::after {
+                width: 10px;
+                height: 10px;
+            }
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cursorTrail = document.getElementById('cursor-trail-login');
+            const loginForm = document.getElementById('login-form');
+            const loginImg = document.getElementById('login-img');
+
+            // Cursor trail effect
+            document.addEventListener('mousemove', function(e) {
+                cursorTrail.style.left = e.clientX - 7.5 + 'px';
+                cursorTrail.style.top = e.clientY - 7.5 + 'px';
+                cursorTrail.style.opacity = '1';
+            });
+
+            document.addEventListener('mouseleave', function() {
+                cursorTrail.style.opacity = '0';
+            });
+
+            // Ripple effect on form click
+            loginForm.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = 50;
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.classList.add('ripple-login');
+                
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+
+            // Image rotation on page load
+            setTimeout(() => {
+                loginImg.style.transform = 'rotate(360deg)';
+                loginImg.style.transition = 'transform 1s ease';
+            }, 500);
+
+            // Add floating particles dynamically
+            function createFloatingParticleLogin() {
+                const particle = document.createElement('div');
+                particle.style.position = 'fixed';
+                particle.style.width = Math.random() * 4 + 3 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.background = 'rgba(255, 255, 255, 0.1)';
+                particle.style.borderRadius = '50%';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = '100vh';
+                particle.style.pointerEvents = 'none';
+                particle.style.animation = `floatUpLogin ${Math.random() * 8 + 6}s linear infinite`;
+                particle.style.zIndex = '2';
+                
+                document.querySelector('.floating-particles-login').appendChild(particle);
+                
+                setTimeout(() => {
+                    particle.remove();
+                }, 14000);
+            }
+
+            // Create particles periodically
+            setInterval(createFloatingParticleLogin, 3000);
+
+            // Add floating animation for particles
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes floatUpLogin {
+                    0% {
+                        transform: translateY(0) rotate(0deg);
+                        opacity: 0;
+                    }
+                    10% {
+                        opacity: 0.6;
+                    }
+                    90% {
+                        opacity: 0.6;
+                    }
+                    100% {
+                        transform: translateY(-110vh) rotate(360deg);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+
+            // Focus effects for inputs
+            const inputs = document.querySelectorAll('.interactive-input');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.style.transform = 'scale(1.02)';
+                    this.parentElement.style.transition = 'transform 0.3s ease';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentElement.style.transform = 'scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+{% endblock %}
