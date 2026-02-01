@@ -3,219 +3,662 @@
 Market - Flask Market
 {% endblock %}
 {% block content %}
-<div class="min-h-screen pt-24 pb-12 px-4"
-   style="background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);">
-   <!-- Header Section -->
-   <div class="max-w-7xl mx-auto mb-10">
-      <div class="text-center mb-8">
-         <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium mb-4"
-            style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2)); border: 1px solid rgba(139, 92, 246, 0.3); color: #c4b5fd;">
-            <i class="fas fa-shopping-cart mr-2"></i>
-            Premium Marketplace
-         </span>
-         <h1 class="text-4xl md:text-5xl font-bold text-white mb-4"
-            style="background: linear-gradient(135deg, #ffffff 0%, #a855f7 50%, #06b6d4 100%); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
-            Explore Products
-         </h1>
-         <p class="text-gray-400 text-lg max-w-2xl mx-auto">
-            Discover our curated collection of premium products
-         </p>
-      </div>
+<div class="min-h-screen pt-20 pb-16 px-4 md:px-8 lg:px-12"
+   style="background: linear-gradient(180deg, #080810 0%, #0f0f1a 50%, #12121f 100%);">
 
-      <!-- User Balance Card -->
-      <div class="flex justify-center mb-8">
-         <div class="inline-flex items-center px-6 py-3 rounded-2xl"
-            style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.1)); border: 1px solid rgba(34, 197, 94, 0.3);">
-            <i class="fas fa-wallet text-2xl text-green-400 mr-4"></i>
-            <div>
-               <p class="text-gray-400 text-sm">Your Balance</p>
-               <p class="text-2xl font-bold text-green-400">{{ current_user.prettier_budget }}</p>
+   <!-- Page Header -->
+   <div class="max-w-7xl mx-auto mb-8 pt-4">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+         <div>
+            <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">
+               <i class="fas fa-gem text-purple-400 mr-3"></i>Available Products
+            </h1>
+            <p class="text-gray-400">Browse and shop our premium collection</p>
+         </div>
+         <div class="flex items-center gap-4">
+            <div class="px-5 py-3 rounded-xl flex items-center gap-3"
+               style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.05)); border: 1px solid rgba(34, 197, 94, 0.2);">
+               <i class="fas fa-wallet text-green-400 text-xl"></i>
+               <div>
+                  <p class="text-gray-400 text-xs">Balance</p>
+                  <p class="text-green-400 font-bold text-lg">${{ current_user.budget }}</p>
+               </div>
             </div>
+            <span class="px-4 py-2 rounded-lg text-sm font-medium"
+               style="background: rgba(139, 92, 246, 0.1); color: #c4b5fd; border: 1px solid rgba(139, 92, 246, 0.2);">
+               {{ items|length }} items
+            </span>
          </div>
       </div>
    </div>
 
    <div class="max-w-7xl mx-auto">
-      <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-         <!-- Products Section (3 columns) -->
-         <div class="lg:col-span-3">
-            <div class="flex items-center justify-between mb-6">
-               <h2 class="text-xl font-semibold text-white flex items-center">
-                  <i class="fas fa-gem text-purple-400 mr-3"></i>
-                  Available Products
-               </h2>
-               <span class="px-3 py-1 rounded-full text-sm"
-                  style="background: rgba(139, 92, 246, 0.2); color: #c4b5fd;">
-                  {{ items|length }} items
-               </span>
+      <div class="flex flex-col lg:flex-row gap-8">
+
+         <!-- Cart Sidebar (Left) -->
+         <div class="lg:w-72 flex-shrink-0 order-2 lg:order-1">
+            <div class="rounded-2xl p-5 sticky top-24"
+               style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05);">
+
+               <!-- Cart Header -->
+               <div class="flex items-center justify-between mb-6">
+                  <div class="flex items-center gap-2">
+                     <i class="fas fa-shopping-cart text-cyan-400"></i>
+                     <h2 class="text-lg font-bold text-white">Your Cart</h2>
+                  </div>
+                  <span id="cart-count" class="px-2.5 py-1 rounded-full text-xs font-bold"
+                     style="background: rgba(6, 182, 212, 0.15); color: #67e8f9;">0</span>
+               </div>
+
+               <!-- Cart Items Container -->
+               <div id="cart-items" class="space-y-3 mb-6 max-h-64 overflow-y-auto custom-scrollbar">
+                  <div id="cart-empty" class="text-center py-10">
+                     <i class="fas fa-shopping-basket text-4xl text-gray-600 mb-4"></i>
+                     <p class="text-gray-400 text-sm">Your cart is empty</p>
+                     <p class="text-gray-500 text-xs mt-1">Start shopping to add items!</p>
+                  </div>
+               </div>
+
+               <!-- Cart Summary -->
+               <div class="pt-5 border-t" style="border-color: rgba(255, 255, 255, 0.05);">
+                  <div class="flex justify-between mb-2 text-sm">
+                     <span class="text-gray-400">Total Items</span>
+                     <span id="cart-total-items" class="text-white font-semibold">0</span>
+                  </div>
+                  <div class="flex justify-between mb-5">
+                     <span class="text-gray-400">Total Value</span>
+                     <span id="cart-total-value" class="text-green-400 font-bold text-lg">$0</span>
+                  </div>
+
+                  <!-- Purchase Cart Button -->
+                  <form method="POST" id="cart-form">
+                     {{ purchase_form.hidden_tag() }}
+                     <input type="hidden" name="cart_items" id="cart-items-input" value="[]">
+                     <button type="button" id="purchase-cart-btn" onclick="openCartPurchaseModal()"
+                        class="w-full py-3 rounded-xl text-white font-semibold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                        style="background: linear-gradient(135deg, #22c55e, #16a34a);" disabled>
+                        <i class="fas fa-credit-card mr-2"></i>Purchase Cart
+                     </button>
+                  </form>
+               </div>
+
+
             </div>
+         </div>
 
-            <!-- Products Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+         <!-- Products Grid (Right) -->
+         <div class="flex-1 order-1 lg:order-2">
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
                {% for item in items %}
-               {% include 'includes/items_modals.html' %}
-               <div class="group rounded-2xl p-5 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
-                  style="background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08);"
-                  onmouseover="this.style.borderColor='rgba(139, 92, 246, 0.3)'; this.style.boxShadow='0 25px 50px rgba(0, 0, 0, 0.3), 0 0 40px rgba(139, 92, 246, 0.1)';"
-                  onmouseout="this.style.borderColor='rgba(255, 255, 255, 0.08)'; this.style.boxShadow='none';">
+               <div class="product-card rounded-2xl p-5 transition-all duration-300"
+                  style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05);"
+                  id="product-{{ item.id }}">
 
-                  <!-- Product Icon -->
-                  <div
-                     class="w-16 h-16 mb-4 rounded-xl flex items-center justify-center mx-auto transition-transform duration-300 group-hover:scale-110"
-                     style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));">
-                     <i class="fas fa-box-open text-2xl text-purple-400"></i>
-                  </div>
-
-                  <!-- Product Info -->
-                  <div class="text-center mb-4">
-                     <h3 class="text-lg font-semibold text-white mb-2 group-hover:text-purple-300 transition-colors">{{
-                        item.name }}</h3>
-                     <p class="text-gray-400 text-sm line-clamp-2 mb-3">{{ item.description[:80] }}{% if
-                        item.description|length > 80 %}...{% endif %}</p>
-                     <div class="inline-block px-4 py-1 rounded-full"
-                        style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(22, 163, 74, 0.2));">
-                        <span class="text-green-400 font-bold text-lg">${{ item.price }}</span>
+                  <!-- Product Image -->
+                  <div class="relative mb-4">
+                     <div class="aspect-square rounded-xl flex items-center justify-center"
+                        style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.15));">
+                        <i class="fas fa-box-open text-4xl text-purple-400"></i>
                      </div>
+                     <span class="absolute top-2 right-2 px-2 py-1 rounded-md text-xs font-semibold"
+                        style="background: rgba(34, 197, 94, 0.15); color: #4ade80;">
+                        In Stock
+                     </span>
                   </div>
 
-                  <!-- Barcode -->
+                  <!-- Product Name -->
+                  <h3 class="text-white font-semibold text-center mb-1 truncate">{{ item.name }}</h3>
+
+                  <!-- Short Description -->
+                  <p class="text-gray-500 text-xs text-center mb-3 h-8 overflow-hidden">
+                     {{ item.description[:50] }}{% if item.description|length > 50 %}...{% endif %}
+                  </p>
+
+                  <!-- Price -->
                   <div class="text-center mb-4">
-                     <code class="px-2 py-1 rounded text-xs"
-                        style="background: rgba(139, 92, 246, 0.1); color: #c4b5fd;">
-                                <i class="fas fa-barcode mr-1"></i>{{ item.barcode }}
-                            </code>
+                     <span class="text-2xl font-bold text-green-400">${{ item.price }}</span>
                   </div>
 
                   <!-- Action Buttons -->
-                  <div class="flex gap-2">
-                     <button
-                        class="flex-1 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:-translate-y-0.5 flex items-center justify-center"
-                        style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);"
-                        data-toggle="modal" data-target="#Modal-MoreInfo-{{ item.id }}">
-                        <i class="fas fa-info-circle mr-1"></i>Details
-                     </button>
-                     <button
-                        class="flex-1 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg flex items-center justify-center"
-                        style="background: linear-gradient(135deg, #22c55e, #16a34a); color: white;" data-toggle="modal"
-                        data-target="#Modal-PurchaseConfirm-{{ item.id }}">
-                        <i class="fas fa-shopping-cart mr-1"></i>Buy
+                  <div class="space-y-2">
+                     <div class="flex gap-2">
+                        <button
+                           onclick='openDetailsModal({{ item.id }}, {{ item.name | tojson }}, {{ item.description | tojson }}, {{ item.barcode | tojson }}, {{ item.price }})'
+                           class="flex-1 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 hover:-translate-y-0.5"
+                           style="background: rgba(59, 130, 246, 0.1); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.2);">
+                           <i class="fas fa-info-circle mr-1"></i>Details
+                        </button>
+                        <button onclick="openBuyNowModal({{ item.id }}, '{{ item.name }}', {{ item.price }})"
+                           class="flex-1 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 hover:-translate-y-0.5"
+                           style="background: linear-gradient(135deg, #22c55e, #16a34a); color: white;">
+                           <i class="fas fa-shopping-cart mr-1"></i>Buy Now
+                        </button>
+                     </div>
+                     <button onclick="addToCart({{ item.id }}, '{{ item.name }}', {{ item.price }})"
+                        class="w-full py-2.5 rounded-lg text-sm font-medium transition-all duration-200 hover:-translate-y-0.5 add-to-cart-btn"
+                        style="background: rgba(139, 92, 246, 0.1); color: #c4b5fd; border: 1px solid rgba(139, 92, 246, 0.2);"
+                        id="add-cart-{{ item.id }}">
+                        <i class="fas fa-cart-plus mr-1"></i>Add to Cart
                      </button>
                   </div>
                </div>
                {% endfor %}
 
                {% if not items %}
-               <div class="col-span-full text-center py-16">
-                  <div class="w-24 h-24 mx-auto mb-6 rounded-full flex items-center justify-center"
-                     style="background: rgba(255, 255, 255, 0.03);">
-                     <i class="fas fa-box-open text-4xl text-gray-600"></i>
-                  </div>
+               <div class="col-span-full text-center py-20">
+                  <i class="fas fa-store-slash text-6xl text-gray-600 mb-6"></i>
                   <h3 class="text-xl text-gray-400 mb-2">No products available</h3>
-                  <p class="text-gray-500">Check back later for new items!</p>
+                  <p class="text-gray-500">Check back later!</p>
                </div>
                {% endif %}
             </div>
          </div>
 
-         <!-- Owned Items Sidebar -->
-         <div class="lg:col-span-1">
-            <div class="rounded-2xl p-6 sticky top-24"
-               style="background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08);">
-               <div class="flex items-center justify-between mb-6">
-                  <h2 class="text-lg font-semibold text-white flex items-center">
-                     <i class="fas fa-briefcase text-cyan-400 mr-2"></i>
-                     Your Collection
-                  </h2>
-                  <span class="px-2 py-1 rounded-full text-xs"
-                     style="background: rgba(6, 182, 212, 0.2); color: #67e8f9;">
-                     {{ owned_items|length }}
-                  </span>
+      </div>
+   </div>
+</div>
+
+<!-- Footer -->
+<footer class="py-12 px-4 md:px-8"
+   style="background: linear-gradient(180deg, #0a0a14 0%, #080810 100%); border-top: 1px solid rgba(255, 255, 255, 0.05);">
+   <div class="max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+         <!-- Brand -->
+         <div class="md:col-span-2">
+            <div class="flex items-center gap-3 mb-4">
+               <div
+                  class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+                  <i class="fas fa-store text-white text-lg"></i>
+               </div>
+               <span class="text-xl font-bold bg-gradient-to-r from-white to-purple-300 bg-clip-text text-transparent">
+                  Flask Market
+               </span>
+            </div>
+            <p class="text-gray-500 text-sm max-w-md">
+               Your premium destination for quality products. Shop with confidence and enjoy our seamless shopping
+               experience.
+            </p>
+         </div>
+
+         <!-- Quick Links -->
+         <div>
+            <h4 class="text-white font-semibold mb-4">Quick Links</h4>
+            <ul class="space-y-2">
+               <li><a href="{{ url_for('home_page') }}"
+                     class="text-gray-400 hover:text-purple-400 transition-colors text-sm">Home</a></li>
+               <li><a href="{{ url_for('market_page') }}"
+                     class="text-gray-400 hover:text-purple-400 transition-colors text-sm">Market</a></li>
+            </ul>
+         </div>
+
+         <!-- Contact -->
+         <div>
+            <h4 class="text-white font-semibold mb-4">Connect</h4>
+            <div class="flex gap-3">
+               <a href="#"
+                  class="w-10 h-10 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/5 transition-all">
+                  <i class="fab fa-twitter"></i>
+               </a>
+               <a href="#"
+                  class="w-10 h-10 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/5 transition-all">
+                  <i class="fab fa-github"></i>
+               </a>
+               <a href="#"
+                  class="w-10 h-10 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/5 transition-all">
+                  <i class="fab fa-discord"></i>
+               </a>
+            </div>
+         </div>
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="pt-8 border-t" style="border-color: rgba(255, 255, 255, 0.05);">
+         <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+            <p class="text-gray-500 text-sm">&copy; 2026 Flask Market. All rights reserved.</p>
+            <div class="flex items-center gap-2 text-gray-500 text-sm">
+               <span>Made with</span>
+               <i class="fas fa-heart text-red-500"></i>
+               <span>using Flask & Tailwind CSS</span>
+            </div>
+         </div>
+      </div>
+   </div>
+</footer>
+
+<!-- Details Modal -->
+<div id="detailsModal" class="modal-overlay hidden">
+   <div class="modal-container">
+      <div class="modal-content-box">
+         <div class="modal-header py-4 px-5" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <h5 class="text-white font-bold flex items-center gap-2">
+               <i class="fas fa-info-circle text-blue-400"></i>Product Details
+            </h5>
+            <button type="button" class="text-gray-400 hover:text-white text-2xl"
+               onclick="closeModal('detailsModal')">&times;</button>
+         </div>
+         <div class="p-6">
+            <div class="text-center mb-5">
+               <div class="w-20 h-20 mx-auto mb-4 rounded-xl flex items-center justify-center"
+                  style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.2));">
+                  <i class="fas fa-box-open text-4xl text-purple-400"></i>
+               </div>
+               <h3 id="detail-name" class="text-2xl font-bold text-white mb-2"></h3>
+               <span id="detail-price" class="inline-block px-4 py-1 rounded-lg text-xl font-bold text-green-400"
+                  style="background: rgba(34, 197, 94, 0.1);"></span>
+            </div>
+
+            <div class="space-y-4">
+               <div class="p-4 rounded-xl"
+                  style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.04);">
+                  <p class="text-gray-500 text-xs uppercase tracking-wider mb-2">Description</p>
+                  <p id="detail-description" class="text-gray-300 text-sm leading-relaxed"></p>
                </div>
 
-               <div class="space-y-3 max-h-96 overflow-y-auto pr-2"
-                  style="scrollbar-width: thin; scrollbar-color: rgba(139, 92, 246, 0.3) rgba(255, 255, 255, 0.05);">
-                  {% for owned_item in owned_items %}
-                  {% include 'includes/owned_items_modals.html' %}
-                  <div class="rounded-xl p-4 transition-all duration-300 hover:-translate-y-1"
-                     style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05);"
-                     onmouseover="this.style.borderColor='rgba(6, 182, 212, 0.3)';"
-                     onmouseout="this.style.borderColor='rgba(255, 255, 255, 0.05)';">
-                     <div class="flex items-center gap-3 mb-3">
-                        <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
-                           style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(139, 92, 246, 0.2));">
-                           <i class="fas fa-cube text-cyan-400"></i>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                           <h4 class="text-white font-medium text-sm truncate">{{ owned_item.name }}</h4>
-                           <span class="text-green-400 text-xs font-semibold">${{ owned_item.price }}</span>
-                        </div>
-                     </div>
-                     <button
-                        class="w-full px-3 py-2 rounded-lg text-xs font-medium transition-all duration-300 hover:shadow-lg"
-                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(220, 38, 38, 0.15)); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3);"
-                        data-toggle="modal" data-target="#Modal-SellingConfirm-{{ owned_item.id }}">
-                        <i class="fas fa-tag mr-1"></i>Sell Item
-                     </button>
+               <div class="grid grid-cols-2 gap-3">
+                  <div class="p-3 rounded-xl text-center" style="background: rgba(255, 255, 255, 0.02);">
+                     <p class="text-gray-500 text-xs uppercase mb-1">Barcode</p>
+                     <code id="detail-barcode" class="text-purple-400 text-sm font-mono"></code>
                   </div>
-                  {% endfor %}
-
-                  {% if not owned_items %}
-                  <div class="text-center py-8">
-                     <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center"
-                        style="background: rgba(255, 255, 255, 0.02);">
-                        <i class="fas fa-shopping-bag text-2xl text-gray-600"></i>
-                     </div>
-                     <p class="text-gray-400 text-sm">No items yet</p>
-                     <p class="text-gray-500 text-xs mt-1">Start shopping!</p>
-                  </div>
-                  {% endif %}
-               </div>
-
-               <!-- Quick Stats -->
-               <div class="mt-6 pt-6" style="border-top: 1px solid rgba(255, 255, 255, 0.08);">
-                  <div class="grid grid-cols-2 gap-3">
-                     <div class="text-center p-3 rounded-lg" style="background: rgba(255, 255, 255, 0.02);">
-                        <p class="text-gray-500 text-xs mb-1">Items Owned</p>
-                        <p class="text-white font-bold">{{ owned_items|length }}</p>
-                     </div>
-                     <div class="text-center p-3 rounded-lg" style="background: rgba(255, 255, 255, 0.02);">
-                        <p class="text-gray-500 text-xs mb-1">Total Value</p>
-                        <p class="text-green-400 font-bold">${{ owned_items|sum(attribute='price') }}</p>
-                     </div>
+                  <div class="p-3 rounded-xl text-center" style="background: rgba(255, 255, 255, 0.02);">
+                     <p class="text-gray-500 text-xs uppercase mb-1">Item ID</p>
+                     <span id="detail-id" class="text-white font-bold"></span>
                   </div>
                </div>
             </div>
+         </div>
+         <div class="p-4 flex gap-3" style="border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <button type="button" class="flex-1 py-3 rounded-xl text-gray-400 font-medium hover:bg-white/5"
+               onclick="closeModal('detailsModal')">Close</button>
+            <button type="button" id="detail-buy-btn" class="flex-1 py-3 rounded-xl text-white font-semibold"
+               style="background: linear-gradient(135deg, #22c55e, #16a34a);">
+               <i class="fas fa-shopping-cart mr-2"></i>Buy Now
+            </button>
+         </div>
+      </div>
+   </div>
+</div>
+
+<!-- Buy Now / Confirm Purchase Modal -->
+<div id="purchaseModal" class="modal-overlay hidden">
+   <div class="modal-container">
+      <div class="modal-content-box">
+         <div class="modal-header py-4 px-5" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <h5 class="text-white font-bold flex items-center gap-2">
+               <i class="fas fa-shopping-cart text-green-400"></i>Confirm Purchase
+            </h5>
+            <button type="button" class="text-gray-400 hover:text-white text-2xl"
+               onclick="closeModal('purchaseModal')">&times;</button>
+         </div>
+         <div class="p-6">
+            <form method="POST" id="purchase-single-form">
+               {{ purchase_form.hidden_tag() }}
+               <input type="hidden" name="purchased_item" id="purchase-item-name" value="">
+
+               <div class="text-center mb-6">
+                  <div class="w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center"
+                     style="background: rgba(34, 197, 94, 0.1);">
+                     <i class="fas fa-check text-4xl text-green-400"></i>
+                  </div>
+                  <h3 class="text-xl text-white mb-2">
+                     Purchase <span id="purchase-product-name" class="text-purple-400 font-bold"></span>?
+                  </h3>
+                  <p class="text-gray-400">
+                     This will deduct <span id="purchase-price" class="text-green-400 font-bold"></span> from your
+                     balance
+                  </p>
+               </div>
+
+               <div class="p-4 rounded-xl mb-6" style="background: rgba(255, 255, 255, 0.02);">
+                  <div class="flex justify-between">
+                     <span class="text-gray-400">Item Price</span>
+                     <span id="purchase-price-summary" class="text-white font-bold"></span>
+                  </div>
+               </div>
+
+               <button type="submit"
+                  class="w-full py-3.5 rounded-xl text-white font-semibold transition-all hover:-translate-y-0.5"
+                  style="background: linear-gradient(135deg, #22c55e, #16a34a);">
+                  <i class="fas fa-check mr-2"></i>Confirm Purchase
+               </button>
+            </form>
+         </div>
+         <div class="p-4" style="border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <button type="button" class="w-full py-2.5 rounded-xl text-gray-400 font-medium hover:bg-white/5"
+               onclick="closeModal('purchaseModal')">Cancel</button>
+         </div>
+      </div>
+   </div>
+</div>
+
+<!-- Cart Purchase Modal -->
+<div id="cartPurchaseModal" class="modal-overlay hidden">
+   <div class="modal-container">
+      <div class="modal-content-box">
+         <div class="modal-header py-4 px-5" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <h5 class="text-white font-bold flex items-center gap-2">
+               <i class="fas fa-shopping-cart text-cyan-400"></i>Purchase Cart Items
+            </h5>
+            <button type="button" class="text-gray-400 hover:text-white text-2xl"
+               onclick="closeModal('cartPurchaseModal')">&times;</button>
+         </div>
+         <div class="p-6">
+            <div class="text-center mb-6">
+               <div class="w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center"
+                  style="background: rgba(6, 182, 212, 0.1);">
+                  <i class="fas fa-cart-arrow-down text-4xl text-cyan-400"></i>
+               </div>
+               <h3 class="text-xl text-white mb-2">Purchase <span id="cart-modal-count"
+                     class="text-cyan-400 font-bold"></span> items?</h3>
+               <p class="text-gray-400">Total: <span id="cart-modal-total" class="text-green-400 font-bold"></span></p>
+            </div>
+
+            <div id="cart-modal-items" class="space-y-2 max-h-40 overflow-y-auto mb-6 p-3 rounded-xl custom-scrollbar"
+               style="background: rgba(255, 255, 255, 0.02);">
+               <!-- Cart items will be listed here -->
+            </div>
+
+            <button type="button" onclick="confirmCartPurchase()"
+               class="w-full py-3.5 rounded-xl text-white font-semibold transition-all hover:-translate-y-0.5"
+               style="background: linear-gradient(135deg, #22c55e, #16a34a);">
+               <i class="fas fa-check mr-2"></i>Confirm Purchase
+            </button>
+         </div>
+         <div class="p-4" style="border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <button type="button" class="w-full py-2.5 rounded-xl text-gray-400 font-medium hover:bg-white/5"
+               onclick="closeModal('cartPurchaseModal')">Cancel</button>
          </div>
       </div>
    </div>
 </div>
 
 <style>
-   /* Custom scrollbar */
-   .overflow-y-auto::-webkit-scrollbar {
+   .product-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(139, 92, 246, 0.3);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+   }
+
+   .custom-scrollbar::-webkit-scrollbar {
       width: 4px;
    }
 
-   .overflow-y-auto::-webkit-scrollbar-track {
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 2px;
+   .custom-scrollbar::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.02);
    }
 
-   .overflow-y-auto::-webkit-scrollbar-thumb {
+   .custom-scrollbar::-webkit-scrollbar-thumb {
       background: rgba(139, 92, 246, 0.3);
-      border-radius: 2px;
+      border-radius: 4px;
    }
 
-   .overflow-y-auto::-webkit-scrollbar-thumb:hover {
-      background: rgba(139, 92, 246, 0.5);
+   .cart-item-added {
+      animation: cartPulse 0.3s ease;
    }
 
-   /* Line clamp utility */
-   .line-clamp-2 {
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
+   @keyframes cartPulse {
+
+      0%,
+      100% {
+         transform: scale(1);
+      }
+
+      50% {
+         transform: scale(1.05);
+      }
+   }
+
+   /* Custom Modal Styles */
+   .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(4px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+   }
+
+   .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+   }
+
+   .modal-overlay.hidden {
+      display: none;
+   }
+
+   .modal-container {
+      width: 100%;
+      max-width: 480px;
+      max-height: 90vh;
+      margin: 1rem;
+      transform: scale(0.9) translateY(-20px);
+      transition: transform 0.3s ease;
+   }
+
+   .modal-overlay.active .modal-container {
+      transform: scale(1) translateY(0);
+   }
+
+   .modal-content-box {
+      background: linear-gradient(180deg, #0f0f1a 0%, #1a1a2e 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
       overflow: hidden;
+      max-height: 90vh;
+      overflow-y: auto;
+   }
+
+   .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
    }
 </style>
+
+<script>
+   // Cart data structure
+   let cart = [];
+
+   // Add item to cart
+   function addToCart(itemId, itemName, itemPrice) {
+      // Check if already in cart
+      if (cart.find(item => item.id === itemId)) {
+         showToast('Item already in cart!', 'warning');
+         return;
+      }
+
+      cart.push({ id: itemId, name: itemName, price: itemPrice });
+      updateCartUI();
+
+      // Visual feedback
+      const btn = document.getElementById(`add-cart-${itemId}`);
+      btn.innerHTML = '<i class="fas fa-check mr-1"></i>Added!';
+      btn.style.background = 'rgba(34, 197, 94, 0.2)';
+      btn.style.color = '#4ade80';
+      btn.disabled = true;
+
+      showToast(`${itemName} added to cart!`, 'success');
+   }
+
+   // Remove item from cart
+   function removeFromCart(itemId) {
+      const itemIndex = cart.findIndex(item => item.id === itemId);
+      if (itemIndex > -1) {
+         const item = cart[itemIndex];
+         cart.splice(itemIndex, 1);
+         updateCartUI();
+
+         // Reset add to cart button
+         const btn = document.getElementById(`add-cart-${itemId}`);
+         if (btn) {
+            btn.innerHTML = '<i class="fas fa-cart-plus mr-1"></i>Add to Cart';
+            btn.style.background = 'rgba(139, 92, 246, 0.1)';
+            btn.style.color = '#c4b5fd';
+            btn.disabled = false;
+         }
+      }
+   }
+
+   // Update cart UI
+   function updateCartUI() {
+      const cartItemsContainer = document.getElementById('cart-items');
+      const cartEmpty = document.getElementById('cart-empty');
+      const cartCount = document.getElementById('cart-count');
+      const cartTotalItems = document.getElementById('cart-total-items');
+      const cartTotalValue = document.getElementById('cart-total-value');
+      const purchaseBtn = document.getElementById('purchase-cart-btn');
+      const cartItemsInput = document.getElementById('cart-items-input');
+
+      cartCount.textContent = cart.length;
+      cartTotalItems.textContent = cart.length;
+
+      const totalValue = cart.reduce((sum, item) => sum + item.price, 0);
+      cartTotalValue.textContent = `$${totalValue}`;
+
+      // Update hidden input
+      cartItemsInput.value = JSON.stringify(cart.map(item => item.name));
+
+      // Enable/disable purchase button
+      purchaseBtn.disabled = cart.length === 0;
+
+      if (cart.length === 0) {
+         cartEmpty.style.display = 'block';
+         // Remove cart item elements
+         const cartItems = cartItemsContainer.querySelectorAll('.cart-item');
+         cartItems.forEach(el => el.remove());
+      } else {
+         cartEmpty.style.display = 'none';
+
+         // Rebuild cart items HTML
+         let cartHTML = '';
+         cart.forEach(item => {
+            cartHTML += `
+                    <div class="cart-item flex items-center justify-between p-3 rounded-xl cart-item-added" style="background: rgba(255, 255, 255, 0.03);">
+                        <div class="flex-1 min-w-0">
+                            <p class="text-white text-sm font-medium truncate">${item.name}</p>
+                            <p class="text-green-400 text-xs font-semibold">$${item.price}</p>
+                        </div>
+                        <button onclick="removeFromCart(${item.id})" class="text-red-400 hover:text-red-300 p-2">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `;
+         });
+
+         // Keep empty div but hide it, add new items after
+         cartItemsContainer.innerHTML = `<div id="cart-empty" style="display: none;" class="text-center py-10">
+                <i class="fas fa-shopping-basket text-4xl text-gray-600 mb-4"></i>
+                <p class="text-gray-400 text-sm">Your cart is empty</p>
+            </div>` + cartHTML;
+      }
+   }
+
+   // Modal helper functions
+   function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      modal.classList.remove('hidden');
+      // Trigger reflow to enable transition
+      modal.offsetHeight;
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+   }
+
+   function closeModal(modalId) {
+      const modal = document.getElementById(modalId);
+      modal.classList.remove('active');
+      setTimeout(() => {
+         modal.classList.add('hidden');
+         document.body.style.overflow = '';
+      }, 300);
+   }
+
+   // Close modal when clicking on overlay background
+   document.querySelectorAll('.modal-overlay').forEach(modal => {
+      modal.addEventListener('click', function (e) {
+         if (e.target === this) {
+            closeModal(this.id);
+         }
+      });
+   });
+
+   // Open details modal
+   function openDetailsModal(id, name, description, barcode, price) {
+      document.getElementById('detail-name').textContent = name;
+      document.getElementById('detail-price').textContent = `$${price}`;
+      document.getElementById('detail-description').textContent = description;
+      document.getElementById('detail-barcode').textContent = barcode;
+      document.getElementById('detail-id').textContent = `#${id}`;
+
+      // Set up buy button in details modal
+      document.getElementById('detail-buy-btn').onclick = function () {
+         closeModal('detailsModal');
+         setTimeout(() => openBuyNowModal(id, name, price), 300);
+      };
+
+      openModal('detailsModal');
+   }
+
+   // Open buy now modal
+   function openBuyNowModal(id, name, price) {
+      document.getElementById('purchase-item-name').value = name;
+      document.getElementById('purchase-product-name').textContent = name;
+      document.getElementById('purchase-price').textContent = `$${price}`;
+      document.getElementById('purchase-price-summary').textContent = `$${price}`;
+
+      openModal('purchaseModal');
+   }
+
+   // Open cart purchase modal
+   function openCartPurchaseModal() {
+      if (cart.length === 0) return;
+
+      const totalValue = cart.reduce((sum, item) => sum + item.price, 0);
+      document.getElementById('cart-modal-count').textContent = cart.length;
+      document.getElementById('cart-modal-total').textContent = `$${totalValue}`;
+
+      // List items
+      let itemsHTML = '';
+      cart.forEach(item => {
+         itemsHTML += `<div class="flex justify-between text-sm py-1">
+                <span class="text-gray-300">${item.name}</span>
+                <span class="text-green-400">$${item.price}</span>
+            </div>`;
+      });
+      document.getElementById('cart-modal-items').innerHTML = itemsHTML;
+
+      openModal('cartPurchaseModal');
+   }
+
+   // Confirm cart purchase
+   function confirmCartPurchase() {
+      closeModal('cartPurchaseModal');
+      document.getElementById('cart-form').submit();
+   }
+
+   // Toast notification
+   function showToast(message, type) {
+      const toast = document.createElement('div');
+      toast.className = `fixed top-24 right-4 px-5 py-3 rounded-xl text-white font-medium z-50 transition-all transform translate-x-full`;
+      toast.style.background = type === 'success' ? 'linear-gradient(135deg, #22c55e, #16a34a)' :
+         type === 'warning' ? 'linear-gradient(135deg, #f59e0b, #d97706)' :
+            'linear-gradient(135deg, #ef4444, #dc2626)';
+      toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check' : type === 'warning' ? 'exclamation' : 'times'}-circle mr-2"></i>${message}`;
+
+      document.body.appendChild(toast);
+
+      setTimeout(() => { toast.style.transform = 'translateX(0)'; }, 10);
+      setTimeout(() => {
+         toast.style.transform = 'translateX(120%)';
+         setTimeout(() => toast.remove(), 300);
+      }, 2500);
+   }
+</script>
 {% endblock %}

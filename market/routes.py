@@ -16,16 +16,44 @@ def market_page():
     purchase_form = PurchaseItemForm()
     selling_form = SellItemForm()
     if request.method == "POST":
-        #Purchase Item Logic
+        # Cart Purchase Logic (multiple items)
+        cart_items = request.form.get('cart_items')
+        if cart_items:
+            import json
+            try:
+                item_names = json.loads(cart_items)
+                total_cost = 0
+                items_to_buy = []
+                
+                # Validate all items first
+                for item_name in item_names:
+                    item = Item.query.filter_by(name=item_name, owner=None).first()
+                    if item:
+                        items_to_buy.append(item)
+                        total_cost += item.price
+                
+                # Check if user can afford all items
+                if current_user.budget >= total_cost:
+                    for item in items_to_buy:
+                        item.buy(current_user)
+                    flash(f"Congratulations! You purchased {len(items_to_buy)} items for ${total_cost}!", category='success')
+                else:
+                    flash(f"You don't have enough money! Need ${total_cost}, have ${current_user.budget}", category='danger')
+            except:
+                flash("Error processing cart purchase", category='danger')
+            return redirect(url_for('market_page'))
+        
+        # Single Purchase Item Logic
         purchased_item = request.form.get('purchased_item')
         p_item_object = Item.query.filter_by(name=purchased_item).first()
         if p_item_object:
             if current_user.can_purchase(p_item_object):
                 p_item_object.buy(current_user)
-                flash(f"Congratulations! You purchased {p_item_object.name} for {p_item_object.price}$", category='success')
+                flash(f"Congratulations! You purchased {p_item_object.name} for ${p_item_object.price}!", category='success')
             else:
                 flash(f"Unfortunately, you don't have enough money to purchase {p_item_object.name}!", category='danger')
-        #Sell Item Logic
+        
+        # Sell Item Logic
         sold_item = request.form.get('sold_item')
         s_item_object = Item.query.filter_by(name=sold_item).first()
         if s_item_object:
@@ -34,7 +62,6 @@ def market_page():
                 flash(f"Congratulations! You sold {s_item_object.name} back to market!", category='success')
             else:
                 flash(f"Something went wrong with selling {s_item_object.name}", category='danger')
-
 
         return redirect(url_for('market_page'))
 
