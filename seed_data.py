@@ -81,12 +81,6 @@ SAMPLE_PRODUCTS = [
         "barcode": "823456789023",
         "description": "Action camera with 5.3K video, HyperSmooth 6.0 stabilization, waterproof to 33ft, and Emmy-winning image quality."
     }
-    ,    {
-        "name": "FlashLight",
-        "price": 399,
-        "barcode": "823456789000",
-        "description": "A flashlight with 5.3K video, HyperSmooth 6.0 stabilization, waterproof to 33ft, and Emmy-winning image quality."
-    }
 ]
 
 
