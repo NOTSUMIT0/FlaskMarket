@@ -1,44 +1,62 @@
-<style>
-  .modal-content {
-    background-color: #212121
-  }
-</style>
-
-<!-- Selling Confirm -->
-<div class="modal fade" id="Modal-SellingConfirm-{{ owned_item.id }}"
-     tabindex="-1"
-     aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="ModalLabel">
-          <!-- -->
-          {{ owned_item.name }}
+<!-- Selling Confirm Modal -->
+<div class="modal fade" id="Modal-SellingConfirm-{{ owned_item.id }}" tabindex="-1"
+  aria-labelledby="SellModalLabel-{{ owned_item.id }}" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content"
+      style="background: rgba(26, 26, 46, 0.95); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px;">
+      <div class="modal-header" style="border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+        <h5 class="modal-title text-white font-semibold" id="SellModalLabel-{{ owned_item.id }}">
+          <i class="fas fa-tag text-red-400 mr-2"></i>Confirm Sale
         </h5>
-        <button type="button" class="close"
-                data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <form method="POST">
           {{ selling_form.hidden_tag() }}
-          <h4 class="text-center">
-            Are you sure you want to sell {{ owned_item.name }} for {{ owned_item.price }}$ ?
-          </h4>
-          <br>
-          <h6 class="text-center">
-            By clicking Sell, you will put this item back on market
-          </h6>
-          <br>
+
+          <div class="text-center mb-6">
+            <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center"
+              style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(220, 38, 38, 0.2));">
+              <i class="fas fa-hand-holding-usd text-2xl text-red-400"></i>
+            </div>
+            <h4 class="text-xl text-white mb-2">
+              Sell <span class="text-purple-400 font-semibold">{{ owned_item.name }}</span>?
+            </h4>
+            <p class="text-gray-400">
+              You'll receive <span class="text-green-400 font-bold">${{ owned_item.price }}</span> back to your balance
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl mb-4"
+            style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05);">
+            <div class="flex items-center justify-between">
+              <span class="text-gray-400">Sale Price</span>
+              <span class="text-green-400 font-semibold">+${{ owned_item.price }}</span>
+            </div>
+          </div>
+
+          <div class="p-3 rounded-lg mb-4 text-center"
+            style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2);">
+            <p class="text-red-300 text-sm">
+              <i class="fas fa-exclamation-triangle mr-2"></i>
+              This item will be removed from your inventory
+            </p>
+          </div>
+
           <input id="sold_item" name="sold_item" type="hidden" value="{{owned_item.name}}">
-          {{ selling_form.submit(class="btn btn-outline-danger btn-block") }}
+
+          <button type="submit"
+            class="w-full py-3 rounded-xl text-white font-semibold transition-all hover:-translate-y-0.5"
+            style="background: linear-gradient(135deg, #ef4444, #dc2626);">
+            <i class="fas fa-tag mr-2"></i>Confirm Sale
+          </button>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary"
-                data-dismiss="modal">Close
-        </button>
+      <div class="modal-footer" style="border-top: 1px solid rgba(255, 255, 255, 0.1);">
+        <button type="button" class="px-4 py-2 rounded-lg text-gray-300 transition-all hover:bg-white/5"
+          data-dismiss="modal">Cancel</button>
       </div>
     </div>
   </div>

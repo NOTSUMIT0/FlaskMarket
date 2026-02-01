@@ -39,8 +39,8 @@ def market_page():
         return redirect(url_for('market_page'))
 
     if request.method == "GET":
-        items = Item.query.filter_by(owner=None)
-        owned_items = Item.query.filter_by(owner=current_user.id)
+        items = Item.query.filter_by(owner=None).all()
+        owned_items = Item.query.filter_by(owner=current_user.id).all()
         return render_template('market.html', items=items, purchase_form=purchase_form, owned_items=owned_items, selling_form=selling_form)
 
 @app.route('/register', methods=['GET', 'POST'])

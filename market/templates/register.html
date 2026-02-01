@@ -1,467 +1,176 @@
 {% extends 'base.html' %}
 {% block title %}
-    Register Page
+Register - Flask Market
 {% endblock %}
 
 {% block content %}
-<body class="text-center animated-register-bg">
-    <div class="floating-particles-register"></div>
-    <div class="cursor-trail-register" id="cursor-trail-register"></div>
-    <div class="container register-container">
-        <form method="POST" class="form-register floating-form-register" style="color:white" id="register-form">
-            {{ form.hidden_tag() }}
-            <img class="mb-4 register-image" src="https://res.cloudinary.com/dclznuk6u/image/upload/v1751014553/login_register_eikerd.png" alt="" id="register-img">
-            <h1 class="h3 mb-3 font-weight-normal glow-title-register">
-                Please Create your Account
-            </h1>
-            <br>
-            {{ form.username.label() }}
-            {{ form.username(class="form-control interactive-input-register", placeholder="User Name") }}
+<div class="auth-page">
+    <!-- Floating Orbs -->
+    <div class="auth-orb auth-orb-1"></div>
+    <div class="auth-orb auth-orb-2"></div>
+    <div class="auth-orb auth-orb-3"></div>
 
-            {{ form.email_address.label() }}
-            {{ form.email_address(class="form-control interactive-input-register", placeholder="Email Address") }}
-
-            {{ form.password1.label() }}
-            {{ form.password1(class="form-control interactive-input-register", placeholder="Password") }}
-
-            {{ form.password2.label() }}
-            {{ form.password2(class="form-control interactive-input-register", placeholder="Confirm Password") }}
-
-            <br>
-
-            <div class="checkbox mb-3">
-               <h6>Already have an account?</h6>
-               <a class="btn btn-sm btn-secondary interactive-login-btn" href="{{ url_for('login_page') }}">Login</a>
-            </div>
-
-            {{ form.submit(class="btn btn-lg btn-block btn-primary interactive-register-submit-btn") }}
-
-        </form>
+    <!-- Floating Particles -->
+    <div class="auth-particles">
+        <div class="auth-particle"></div>
+        <div class="auth-particle"></div>
+        <div class="auth-particle"></div>
+        <div class="auth-particle"></div>
     </div>
 
-    <style>
-        /* Animated page background */
-        body.animated-register-bg {
-            background: linear-gradient(-45deg, #0d1421, #1a1a2e, #16213e, #0f1419, #533483, #2d1b69);
-            background-size: 500% 500%;
-            animation: registerPageGradient 30s ease infinite;
-            min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
+    <!-- Register Card -->
+    <div class="auth-card" style="max-width: 480px;">
+        <!-- Icon -->
+        <div class="auth-icon-container">
+            <i class="auth-icon fas fa-user-plus"></i>
+        </div>
+
+        <!-- Title -->
+        <h1 class="auth-title">Create Account</h1>
+        <p class="auth-subtitle">Join Flask Market and start shopping today</p>
+
+        <!-- Form -->
+        <form method="POST" id="register-form">
+            {{ form.hidden_tag() }}
+
+            <!-- Username -->
+            <div class="mb-4">
+                <label class="auth-label" for="username">
+                    <i class="fas fa-user mr-2 text-purple-400"></i>Username
+                </label>
+                {{ form.username(class="auth-input", placeholder="Choose a username", id="username") }}
+            </div>
+
+            <!-- Email -->
+            <div class="mb-4">
+                <label class="auth-label" for="email_address">
+                    <i class="fas fa-envelope mr-2 text-purple-400"></i>Email Address
+                </label>
+                {{ form.email_address(class="auth-input", placeholder="Enter your email", id="email_address") }}
+            </div>
+
+            <!-- Password Row -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <!-- Password -->
+                <div>
+                    <label class="auth-label" for="password1">
+                        <i class="fas fa-lock mr-2 text-purple-400"></i>Password
+                    </label>
+                    <div class="password-wrapper">
+                        {{ form.password1(class="auth-input", placeholder="Create password", id="password1") }}
+                        <button type="button" class="password-toggle" onclick="togglePassword('password1', this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Confirm Password -->
+                <div>
+                    <label class="auth-label" for="password2">
+                        <i class="fas fa-check-circle mr-2 text-purple-400"></i>Confirm
+                    </label>
+                    <div class="password-wrapper">
+                        {{ form.password2(class="auth-input", placeholder="Confirm password", id="password2") }}
+                        <button type="button" class="password-toggle" onclick="togglePassword('password2', this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Grid -->
+            <div class="auth-features">
+                <div class="auth-feature">
+                    <div class="auth-feature-icon">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <span class="auth-feature-text">Free $1000 Starting Balance</span>
+                </div>
+                <div class="auth-feature">
+                    <div class="auth-feature-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <span class="auth-feature-text">Exclusive Access</span>
+                </div>
+                <div class="auth-feature">
+                    <div class="auth-feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <span class="auth-feature-text">Secure Account</span>
+                </div>
+                <div class="auth-feature">
+                    <div class="auth-feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <span class="auth-feature-text">Instant Setup</span>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            {{ form.submit(class="auth-submit-btn flex items-center justify-center gap-2") }}
+        </form>
+
+        <!-- Divider -->
+        <div class="auth-divider">
+            <span>or</span>
+        </div>
+
+        <!-- Switch to Login -->
+        <p class="auth-switch">
+            Already have an account?
+            <a href="{{ url_for('login_page') }}" class="auth-switch-link">Sign in</a>
+        </p>
+    </div>
+</div>
+
+<!-- Custom CSS Link -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+
+<script>
+    function togglePassword(inputId, button) {
+        const input = document.getElementById(inputId);
+        const icon = button.querySelector('i');
+
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
         }
+    }
 
-        @keyframes registerPageGradient {
-            0% { background-position: 0% 50%; }
-            15% { background-position: 100% 30%; }
-            30% { background-position: 80% 100%; }
-            45% { background-position: 20% 80%; }
-            60% { background-position: 100% 20%; }
-            75% { background-position: 0% 100%; }
-            90% { background-position: 50% 0%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Floating particles for register */
-        .floating-particles-register {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .floating-particles-register::before,
-        .floating-particles-register::after {
-            content: '';
-            position: absolute;
-            width: 18px;
-            height: 18px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            animation: floatRegister 10s ease-in-out infinite;
-        }
-
-        .floating-particles-register::before {
-            top: 15%;
-            left: 15%;
-            animation-delay: 0s;
-            background: rgba(0, 123, 255, 0.2);
-        }
-
-        .floating-particles-register::after {
-            top: 65%;
-            right: 15%;
-            animation-delay: 5s;
-            background: rgba(83, 52, 131, 0.3);
-        }
-
-        @keyframes floatRegister {
-            0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); opacity: 0.4; }
-            25% { transform: translateY(-20px) rotate(90deg) scale(1.2); opacity: 0.7; }
-            50% { transform: translateY(-40px) rotate(180deg) scale(0.8); opacity: 1; }
-            75% { transform: translateY(-20px) rotate(270deg) scale(1.1); opacity: 0.6; }
-        }
-
-        /* Register container */
-        .register-container {
-            position: relative;
-            z-index: 10;
-            padding-top: 2rem;
-        }
-
-        /* Floating form for register */
-        .floating-form-register {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(20px);
-            border-radius: 25px;
-            padding: 3rem 2.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.4);
-            animation: formFloatRegister 7s ease-in-out infinite;
-            transition: all 0.4s ease;
-            max-width: 450px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        @keyframes formFloatRegister {
-            0%, 100% { transform: translateY(0px) rotateX(0deg); }
-            33% { transform: translateY(-8px) rotateX(1deg); }
-            66% { transform: translateY(-12px) rotateX(-1deg); }
-        }
-
-        .floating-form-register:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 35px 60px rgba(0, 123, 255, 0.25);
-            border-color: rgba(255, 255, 255, 0.25);
-        }
-
-        .floating-form-register::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, #007bff, #533483, #007bff);
-            border-radius: 25px;
-            z-index: -1;
-            animation: borderGlow 4s ease-in-out infinite;
-            opacity: 0.3;
-        }
-
-        @keyframes borderGlow {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.7; }
-        }
-
-        /* Register image */
-        .register-image {
-            width: 90px;
-            height: 90px;
-            transition: all 0.4s ease;
-            border-radius: 50%;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-            border: 3px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .register-image:hover {
-            transform: scale(1.15) rotate(10deg);
-            box-shadow: 0 20px 40px rgba(0, 123, 255, 0.4);
-            border-color: rgba(0, 123, 255, 0.6);
-        }
-
-        /* Glowing title for register */
-        .glow-title-register {
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.6),
-                         0 0 25px rgba(255, 255, 255, 0.4);
-            animation: titlePulseRegister 3.5s ease-in-out infinite alternate;
-            background: linear-gradient(45deg, #ffffff, #007bff, #ffffff);
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: titlePulseRegister 3.5s ease-in-out infinite alternate,
-                       gradientText 4s ease-in-out infinite;
-        }
-
-        @keyframes titlePulseRegister {
-            from { text-shadow: 0 0 15px rgba(255, 255, 255, 0.6); }
-            to { text-shadow: 0 0 25px rgba(255, 255, 255, 0.9),
-                             0 0 35px rgba(0, 123, 255, 0.5); }
-        }
-
-        @keyframes gradientText {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        /* Interactive inputs for register */
-        .interactive-input-register {
-            background: rgba(255, 255, 255, 0.12) !important;
-            border: 2px solid rgba(255, 255, 255, 0.2) !important;
-            color: white !important;
-            transition: all 0.4s ease;
-            backdrop-filter: blur(12px);
-            border-radius: 10px;
-            margin-bottom: 1rem;
-        }
-
-        .interactive-input-register:focus {
-            background: rgba(255, 255, 255, 0.18) !important;
-            border-color: #007bff !important;
-            box-shadow: 0 0 20px rgba(0, 123, 255, 0.4) !important;
-            transform: scale(1.03);
-        }
-
-        .interactive-input-register::placeholder {
-            color: rgba(255, 255, 255, 0.75) !important;
-        }
-
-        /* Interactive buttons for register */
-        .interactive-login-btn {
-            background: rgba(108, 117, 125, 0.9) !important;
-            border: 2px solid rgba(255, 255, 255, 0.25) !important;
-            transition: all 0.4s ease;
-            backdrop-filter: blur(12px);
-            border-radius: 8px;
-        }
-
-        .interactive-login-btn:hover {
-            background: rgba(108, 117, 125, 1) !important;
-            transform: translateY(-3px) scale(1.08);
-            box-shadow: 0 10px 25px rgba(108, 117, 125, 0.5);
-            border-color: rgba(255, 255, 255, 0.5) !important;
-        }
-
-        .interactive-register-submit-btn {
-            background: linear-gradient(45deg, #007bff, #0056b3, #533483) !important;
-            border: none !important;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-            border-radius: 12px;
-            font-weight: bold;
-        }
-
-        .interactive-register-submit-btn:hover {
-            background: linear-gradient(45deg, #533483, #007bff, #0056b3) !important;
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 15px 30px rgba(0, 123, 255, 0.5);
-        }
-
-        .interactive-register-submit-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.6s;
-        }
-
-        .interactive-register-submit-btn:hover::before {
-            left: 100%;
-        }
-
-        /* Cursor trail for register */
-        .cursor-trail-register {
-            position: fixed;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(0, 123, 255, 0.8), transparent);
-            pointer-events: none;
-            z-index: 9999;
-            opacity: 0;
-            transition: opacity 0.2s ease;
-        }
-
-        /* Ripple effect for register */
-        .ripple-register {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(0, 123, 255, 0.3);
-            transform: scale(0);
-            animation: rippleRegisterEffect 0.8s ease-out;
-            pointer-events: none;
-        }
-
-        @keyframes rippleRegisterEffect {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
-        }
-
-        /* Label styling */
-        label {
-            color: rgba(255, 255, 255, 0.95) !important;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            text-align: left;
-            display: block;
-            font-size: 0.9rem;
-        }
-
-        /* Input group styling */
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .floating-form-register {
-                margin: 1rem;
-                padding: 2.5rem 1.5rem;
-            }
-            
-            .register-image {
-                width: 70px;
-                height: 70px;
-            }
-            
-            .floating-particles-register::before,
-            .floating-particles-register::after {
-                width: 12px;
-                height: 12px;
-            }
-            
-            .glow-title-register {
-                font-size: 1.5rem;
-            }
-        }
-    </style>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const cursorTrail = document.getElementById('cursor-trail-register');
-            const registerForm = document.getElementById('register-form');
-            const registerImg = document.getElementById('register-img');
-
-            // Cursor trail effect
-            document.addEventListener('mousemove', function(e) {
-                cursorTrail.style.left = e.clientX - 9 + 'px';
-                cursorTrail.style.top = e.clientY - 9 + 'px';
-                cursorTrail.style.opacity = '1';
-            });
-
-            document.addEventListener('mouseleave', function() {
-                cursorTrail.style.opacity = '0';
-            });
-
-            // Ripple effect on form click
-            registerForm.addEventListener('click', function(e) {
-                const ripple = document.createElement('span');
-                const rect = this.getBoundingClientRect();
-                const size = 60;
-                const x = e.clientX - rect.left - size / 2;
-                const y = e.clientY - rect.top - size / 2;
-                
-                ripple.style.width = ripple.style.height = size + 'px';
-                ripple.style.left = x + 'px';
-                ripple.style.top = y + 'px';
-                ripple.classList.add('ripple-register');
-                
-                this.appendChild(ripple);
-                
-                setTimeout(() => {
-                    ripple.remove();
-                }, 800);
-            });
-
-            // Image entrance animation
-            setTimeout(() => {
-                registerImg.style.transform = 'rotate(360deg) scale(1.1)';
-                registerImg.style.transition = 'transform 1.2s ease';
-                setTimeout(() => {
-                    registerImg.style.transform = 'scale(1)';
-                }, 1200);
-            }, 600);
-
-            // Add floating particles dynamically
-            function createFloatingParticleRegister() {
-                const particle = document.createElement('div');
-                particle.style.position = 'fixed';
-                particle.style.width = Math.random() * 5 + 4 + 'px';
-                particle.style.height = particle.style.width;
-                const colors = ['rgba(0, 123, 255, 0.15)', 'rgba(83, 52, 131, 0.15)', 'rgba(255, 255, 255, 0.1)'];
-                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-                particle.style.borderRadius = '50%';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = '100vh';
-                particle.style.pointerEvents = 'none';
-                particle.style.animation = `floatUpRegister ${Math.random() * 10 + 8}s linear infinite`;
-                particle.style.zIndex = '2';
-                
-                document.querySelector('.floating-particles-register').appendChild(particle);
-                
-                setTimeout(() => {
-                    particle.remove();
-                }, 18000);
-            }
-
-            // Create particles periodically
-            setInterval(createFloatingParticleRegister, 2500);
-
-            // Add floating animation for particles
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes floatUpRegister {
-                    0% {
-                        transform: translateY(0) rotate(0deg) scale(1);
-                        opacity: 0;
-                    }
-                    10% {
-                        opacity: 0.8;
-                    }
-                    50% {
-                        transform: translateY(-50vh) rotate(180deg) scale(1.2);
-                        opacity: 1;
-                    }
-                    90% {
-                        opacity: 0.7;
-                    }
-                    100% {
-                        transform: translateY(-110vh) rotate(360deg) scale(0.8);
-                        opacity: 0;
-                    }
-                }
-            `;
-            document.head.appendChild(style);
-
-            // Enhanced focus effects for inputs
-            const inputs = document.querySelectorAll('.interactive-input-register');
-            inputs.forEach((input, index) => {
-                input.addEventListener('focus', function() {
-                    this.style.transform = 'scale(1.03)';
-                    this.style.boxShadow = `0 0 20px rgba(0, 123, 255, ${0.4 + index * 0.1})`;
-                });
-                
-                input.addEventListener('blur', function() {
-                    this.style.transform = 'scale(1)';
-                    this.style.boxShadow = 'none';
-                });
-
-                // Add typing effect
-                input.addEventListener('input', function() {
-                    this.style.borderColor = '#007bff';
-                    setTimeout(() => {
-                        this.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-                    }, 300);
-                });
-            });
-
-            // Form validation visual feedback
-            registerForm.addEventListener('submit', function(e) {
-                const submitBtn = this.querySelector('.interactive-register-submit-btn');
-                submitBtn.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    submitBtn.style.transform = 'scale(1)';
-                }, 150);
-            });
+    // Add input focus animations
+    document.querySelectorAll('.auth-input').forEach(input => {
+        input.addEventListener('focus', function () {
+            this.parentElement.style.transform = 'scale(1.02)';
+            this.parentElement.style.transition = 'transform 0.3s ease';
         });
-    </script>
-</body>
+
+        input.addEventListener('blur', function () {
+            this.parentElement.style.transform = 'scale(1)';
+        });
+    });
+
+    // Password match indicator
+    const password1 = document.getElementById('password1');
+    const password2 = document.getElementById('password2');
+
+    if (password2) {
+        password2.addEventListener('input', function () {
+            if (this.value === password1.value && this.value !== '') {
+                this.style.borderColor = '#22c55e';
+                this.style.boxShadow = '0 0 15px rgba(34, 197, 94, 0.2)';
+            } else if (this.value !== '') {
+                this.style.borderColor = '#ef4444';
+                this.style.boxShadow = '0 0 15px rgba(239, 68, 68, 0.2)';
+            } else {
+                this.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                this.style.boxShadow = 'none';
+            }
+        });
+    }
+</script>
 {% endblock %}
