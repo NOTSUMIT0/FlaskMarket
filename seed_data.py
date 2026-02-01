@@ -273,9 +273,10 @@ def seed_database():
         # Add products
         added_count = 0
         for product in SAMPLE_PRODUCTS:
-            # Check if product already exists
-            existing = Item.query.filter_by(barcode=product["barcode"]).first()
-            if existing:
+            # Check if product already exists by barcode OR name
+            existing_barcode = Item.query.filter_by(barcode=product["barcode"]).first()
+            existing_name = Item.query.filter_by(name=product["name"]).first()
+            if existing_barcode or existing_name:
                 print(f"Skipping {product['name']} - already exists")
                 continue
             
