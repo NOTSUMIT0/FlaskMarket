@@ -32,11 +32,11 @@ Market - Flask Market
       </div>
    </div>
 
-   <div class="max-w-7xl mx-auto">
-      <div class="flex flex-col lg:flex-row gap-8">
+   <div class="max-w-[1600px] mx-auto">
+      <div class="flex flex-col lg:flex-row gap-6">
 
          <!-- Cart Sidebar (Left) -->
-         <div class="lg:w-72 flex-shrink-0 order-2 lg:order-1">
+         <div class="lg:w-60 flex-shrink-0 order-2 lg:order-1">
             <div class="rounded-2xl p-5 sticky top-24"
                style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05);">
 
@@ -86,9 +86,9 @@ Market - Flask Market
             </div>
          </div>
 
-         <!-- Products Grid (Right) -->
-         <div class="flex-1 order-1 lg:order-2">
-            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
+         <!-- Products Grid (Center) -->
+         <div class="flex-1 order-1 lg:order-2 min-w-0">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
                {% for item in items %}
                <div class="product-card rounded-2xl p-5 transition-all duration-300"
                   style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05);"
@@ -149,6 +149,66 @@ Market - Flask Market
                   <i class="fas fa-store-slash text-6xl text-gray-600 mb-6"></i>
                   <h3 class="text-xl text-gray-400 mb-2">No products available</h3>
                   <p class="text-gray-500">Check back later!</p>
+               </div>
+               {% endif %}
+            </div>
+         </div>
+
+         <!-- Owned Items Sidebar (Right) -->
+         <div class="lg:w-60 flex-shrink-0 order-3">
+            <div class="rounded-2xl p-4 sticky top-24"
+               style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05);">
+
+               <!-- My Items Header -->
+               <div class="flex items-center justify-between mb-6">
+                  <div class="flex items-center gap-2">
+                     <i class="fas fa-box text-orange-400"></i>
+                     <h2 class="text-lg font-bold text-white">My Items</h2>
+                  </div>
+                  <span class="px-2.5 py-1 rounded-full text-xs font-bold"
+                     style="background: rgba(251, 146, 60, 0.15); color: #fdba74;">{{ owned_items|length }}</span>
+               </div>
+
+               <!-- Owned Items List -->
+               <div class="space-y-3 max-h-80 overflow-y-auto custom-scrollbar">
+                  {% if owned_items %}
+                  {% for owned_item in owned_items %}
+                  <div class="p-3 rounded-xl transition-all hover:bg-white/5"
+                     style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.04);">
+                     <div class="flex items-start justify-between gap-2 mb-2">
+                        <div class="flex-1 min-w-0">
+                           <p class="text-white text-sm font-medium truncate">{{ owned_item.name }}</p>
+                           <p class="text-gray-500 text-xs truncate">{{ owned_item.description[:30] }}...</p>
+                        </div>
+                        <span class="text-green-400 text-sm font-bold whitespace-nowrap">${{ owned_item.price }}</span>
+                     </div>
+                     <button
+                        onclick="openSellModal({{ owned_item.id }}, '{{ owned_item.name }}', {{ owned_item.price }})"
+                        class="w-full py-2 rounded-lg text-xs font-medium transition-all duration-200 hover:-translate-y-0.5"
+                        style="background: rgba(239, 68, 68, 0.1); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.2);">
+                        <i class="fas fa-tag mr-1"></i>Sell Item
+                     </button>
+                  </div>
+                  {% endfor %}
+                  {% else %}
+                  <div class="text-center py-10">
+                     <i class="fas fa-box-open text-4xl text-gray-600 mb-4"></i>
+                     <p class="text-gray-400 text-sm">No items owned</p>
+                     <p class="text-gray-500 text-xs mt-1">Purchase items to see them here!</p>
+                  </div>
+                  {% endif %}
+               </div>
+
+               {% if owned_items %}
+               <!-- Total Value -->
+               <div class="pt-5 mt-4 border-t" style="border-color: rgba(255, 255, 255, 0.05);">
+                  <div class="flex justify-between text-sm">
+                     <span class="text-gray-400">Total Value</span>
+                     <span class="text-green-400 font-bold">
+                        ${% set total = namespace(value=0) %}{% for item in owned_items %}{% set total.value =
+                        total.value + item.price %}{% endfor %}{{ total.value }}
+                     </span>
+                  </div>
                </div>
                {% endif %}
             </div>
@@ -366,6 +426,57 @@ Market - Flask Market
          <div class="p-4" style="border-top: 1px solid rgba(255, 255, 255, 0.05);">
             <button type="button" class="w-full py-2.5 rounded-xl text-gray-400 font-medium hover:bg-white/5"
                onclick="closeModal('cartPurchaseModal')">Cancel</button>
+         </div>
+      </div>
+   </div>
+</div>
+
+<!-- Sell Item Modal -->
+<div id="sellModal" class="modal-overlay hidden">
+   <div class="modal-container">
+      <div class="modal-content-box">
+         <div class="modal-header py-4 px-5" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <h5 class="text-white font-bold flex items-center gap-2">
+               <i class="fas fa-tag text-orange-400"></i>Sell Item
+            </h5>
+            <button type="button" class="text-gray-400 hover:text-white text-2xl"
+               onclick="closeModal('sellModal')">&times;</button>
+         </div>
+         <div class="p-6">
+            <form method="POST" id="sell-form">
+               {{ selling_form.hidden_tag() }}
+               <input type="hidden" name="sold_item" id="sell-item-name" value="">
+
+               <div class="text-center mb-6">
+                  <div class="w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center"
+                     style="background: rgba(251, 146, 60, 0.1);">
+                     <i class="fas fa-hand-holding-usd text-4xl text-orange-400"></i>
+                  </div>
+                  <h3 class="text-xl text-white mb-2">
+                     Sell <span id="sell-product-name" class="text-orange-400 font-bold"></span>?
+                  </h3>
+                  <p class="text-gray-400">
+                     You will receive <span id="sell-price" class="text-green-400 font-bold"></span>
+                  </p>
+               </div>
+
+               <div class="p-4 rounded-xl mb-6" style="background: rgba(255, 255, 255, 0.02);">
+                  <div class="flex justify-between">
+                     <span class="text-gray-400">You'll Receive</span>
+                     <span id="sell-price-summary" class="text-green-400 font-bold"></span>
+                  </div>
+               </div>
+
+               <button type="submit"
+                  class="w-full py-3.5 rounded-xl text-white font-semibold transition-all hover:-translate-y-0.5"
+                  style="background: linear-gradient(135deg, #f97316, #ea580c);">
+                  <i class="fas fa-check mr-2"></i>Confirm Sale
+               </button>
+            </form>
+         </div>
+         <div class="p-4" style="border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <button type="button" class="w-full py-2.5 rounded-xl text-gray-400 font-medium hover:bg-white/5"
+               onclick="closeModal('sellModal')">Cancel</button>
          </div>
       </div>
    </div>
@@ -641,6 +752,16 @@ Market - Flask Market
    function confirmCartPurchase() {
       closeModal('cartPurchaseModal');
       document.getElementById('cart-form').submit();
+   }
+
+   // Open sell modal
+   function openSellModal(id, name, price) {
+      document.getElementById('sell-item-name').value = name;
+      document.getElementById('sell-product-name').textContent = name;
+      document.getElementById('sell-price').textContent = `$${price}`;
+      document.getElementById('sell-price-summary').textContent = `$${price}`;
+
+      openModal('sellModal');
    }
 
    // Toast notification
