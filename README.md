@@ -148,20 +148,6 @@ psycopg2-binary==2.9.9
 gunicorn==21.2.0
 ```
 
-##  Deployment
-
-See [RENDER_DEPLOYMENT_GUIDE.md](RENDER_DEPLOYMENT_GUIDE.md) for detailed deployment instructions.
-
-### Quick Deploy to Render
-
-1. Push to GitHub
-2. Create new Web Service on Render
-3. Connect your repository
-4. Set environment variables:
-   - `FLASK_ENV=production`
-   - `SECRET_KEY=your-secret-key`
-   - `DATABASE_URL=your-postgresql-url`
-5. Deploy!
 
 ##  Screenshots
 
