@@ -134,20 +134,6 @@ def logout_page():
     flash("You have been logged out!", category='info')
     return redirect(url_for("home_page"))
 
-@app.route('/reset_market')
-def reset_market():
-    # This is a temporary route to fix the database schema on Render
-    try:
-        from market.models import Item
-        db.session.remove()
-        Item.__table__.drop(db.engine)
-        db.create_all()
-        from seed_data import seed_database
-        seed_database()
-        return "Market reset and seeded successfully! You can now go back to the home page."
-    except Exception as e:
-        return f"Error resetting market: {e}"
-
 @app.errorhandler(500)
 def internal_error(error):
     return f"Internal Server Error: {error}", 500
