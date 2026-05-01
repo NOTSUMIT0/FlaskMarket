@@ -73,11 +73,14 @@ def market_page():
 def register_page():
     form = RegisterForm()
     if form.validate_on_submit():
+        from market import logger
+        logger.info(f"Creating user: {form.username.data}")
         user_to_create = User(username=form.username.data,
                               email_address=form.email_address.data,
                               password=form.password1.data)
         db.session.add(user_to_create)
         db.session.commit()
+        logger.info(f"User {user_to_create.username} created successfully. Logging in...")
         login_user(user_to_create)
         flash(f"Account created successfully! You are now logged in as {user_to_create.username}", category='success')
         return redirect(url_for('market_page'))
@@ -91,14 +94,18 @@ def register_page():
 def login_page():
     form = LoginForm()
     if form.validate_on_submit():
+        from market import logger
+        logger.info(f"Login attempt for: {form.username.data}")
         attempted_user = User.query.filter_by(username=form.username.data).first()
         if attempted_user and attempted_user.check_password_correction(
                 attempted_password=form.password.data
         ):
             login_user(attempted_user)
+            logger.info(f"User {attempted_user.username} logged in successfully.")
             flash(f'Success! You are logged in as: {attempted_user.username}', category='success')
             return redirect(url_for('market_page'))
         else:
+            logger.warning(f"Failed login attempt for: {form.username.data}")
             flash('Username and password are not match! Please try again', category='danger')
 
     return render_template('login.html', form=form)
@@ -108,3 +115,11 @@ def logout_page():
     logout_user()
     flash("You have been logged out!", category='info')
     return redirect(url_for("home_page"))
+
+@app.errorhandler(500)
+def internal_error(error):
+    return f"Internal Server Error: {error}", 500
+
+@app.errorhandler(404)
+def not_found_error(error):
+    return f"Page Not Found: {error}", 404
