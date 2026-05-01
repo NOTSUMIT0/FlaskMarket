@@ -20,8 +20,13 @@ login_manager = LoginManager(app)
 login_manager.login_view = "login_page"
 login_manager.login_message_category = "info"
 
-from market import routes
+from . import routes
 
 # Create database tables within application context
-with app.app_context():
-    db.create_all()
+# Wrapped in try-except to prevent startup failure if DB is temporarily unavailable
+try:
+    with app.app_context():
+        db.create_all()
+        print("Database tables verified/created.")
+except Exception as e:
+    print(f"Warning: Could not initialize database tables: {e}")
