@@ -19,7 +19,7 @@ def deals_page():
     try:
         check_and_refill_stock()
     except Exception as e:
-        print(f"Stock refill failed: {e}")
+        app.logger.error(f"Auto-refill failed: {e}. Please run fix_db.py to update your database schema.")
     items = Item.query.filter_by(owner=None).limit(7).all()
     return render_template('deals.html', items=items)
 
@@ -82,7 +82,7 @@ def market_page():
         try:
             check_and_refill_stock()
         except Exception as e:
-            print(f"Stock refill failed: {e}")
+            app.logger.error(f"Auto-refill failed: {e}. Please run fix_db.py to update your database schema.")
         items = Item.query.filter_by(owner=None).all()
         owned_items = Item.query.filter_by(owner=current_user.id).all()
         return render_template('market.html', items=items, purchase_form=purchase_form, owned_items=owned_items, selling_form=selling_form)
@@ -133,6 +133,20 @@ def logout_page():
     logout_user()
     flash("You have been logged out!", category='info')
     return redirect(url_for("home_page"))
+
+@app.route('/reset_market')
+def reset_market():
+    # This is a temporary route to fix the database schema on Render
+    try:
+        from market.models import Item
+        db.session.remove()
+        Item.__table__.drop(db.engine)
+        db.create_all()
+        from seed_data import seed_database
+        seed_database()
+        return "Market reset and seeded successfully! You can now go back to the home page."
+    except Exception as e:
+        return f"Error resetting market: {e}"
 
 @app.errorhandler(500)
 def internal_error(error):
