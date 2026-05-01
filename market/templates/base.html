@@ -4,12 +4,12 @@
       <!-- Required meta tags -->
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <meta name="description" content="DAFUQ Market - Your Premium E-Commerce Destination">
+      <meta name="description" content="Universal Cart - Your Premium E-Commerce Destination">
       
       <!-- Google Fonts - Inter -->
       <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
       
       <!-- Tailwind CSS CDN -->
       <script src="https://cdn.tailwindcss.com"></script>
@@ -19,32 +19,21 @@
             extend: {
               fontFamily: {
                 'inter': ['Inter', 'sans-serif'],
+                'outfit': ['Outfit', 'sans-serif'],
               },
               colors: {
-                'primary': {
-                  50: '#f5f3ff',
-                  100: '#ede9fe',
-                  200: '#ddd6fe',
-                  300: '#c4b5fd',
-                  400: '#a78bfa',
-                  500: '#8b5cf6',
-                  600: '#7c3aed',
-                  700: '#6d28d9',
-                  800: '#5b21b6',
-                  900: '#4c1d95',
+                'accent': {
+                  50: '#eff6ff',
+                  100: '#dbeafe',
+                  200: '#bfdbfe',
+                  300: '#93c5fd',
+                  400: '#60a5fa',
+                  500: '#3b82f6',
+                  600: '#2563eb',
+                  700: '#1d4ed8',
+                  800: '#1e40af',
+                  900: '#1e3a8a',
                 },
-                'dark': {
-                  900: '#0a0a14',
-                  800: '#0f0f1a',
-                  700: '#1a1a2e',
-                  600: '#16213e',
-                },
-              },
-              animation: {
-                'gradient': 'gradientShift 15s ease infinite',
-                'float': 'float 6s ease-in-out infinite',
-                'pulse-glow': 'pulse-glow 3s ease-in-out infinite',
-                'shimmer': 'text-shimmer 4s linear infinite',
               },
             }
           }
@@ -59,6 +48,7 @@
       
       <title>
           {% block title %}
+          Universal Cart
           {% endblock %}
       </title>
       
@@ -67,12 +57,20 @@
           font-family: 'Inter', sans-serif;
         }
         body {
-          background: #0f0f1a;
+          background: #0a0a0f;
           color: white;
+        }
+        .font-outfit {
+          font-family: 'Outfit', sans-serif;
         }
         /* Smooth scrolling */
         html {
           scroll-behavior: smooth;
+        }
+        .glass-nav {
+          background: rgba(10, 10, 15, 0.8);
+          backdrop-filter: blur(12px);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
       </style>
    </head>
@@ -82,41 +80,47 @@
       <div class="max-w-7xl mx-auto flex items-center justify-between">
         <!-- Logo -->
         <a href="{{ url_for('home_page') }}" class="flex items-center space-x-2 group">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
-            <i class="fas fa-store text-white text-lg"></i>
+          <div class="w-10 h-10 rounded-xl bg-accent-600 flex items-center justify-center transform group-hover:rotate-12 transition-transform duration-300 shadow-lg shadow-accent-600/20">
+            <i class="fas fa-shopping-cart text-white text-lg"></i>
           </div>
-          <span class="text-xl font-bold bg-gradient-to-r from-white to-purple-300 bg-clip-text text-transparent">
-            Flask Market
+          <span class="text-xl font-bold font-outfit text-white tracking-tight">
+            Universal <span class="text-accent-500">Cart</span>
           </span>
         </a>
         
         <!-- Desktop Navigation -->
         <div class="hidden md:flex items-center space-x-8">
-          <a href="{{ url_for('home_page') }}" class="nav-link-custom text-white hover:text-purple-400 transition-colors py-2">
+          <a href="{{ url_for('home_page') }}" class="nav-link-custom text-white hover:text-accent-400 transition-colors py-2 font-medium">
             Home
           </a>
-          <a href="{{ url_for('market_page') }}" class="nav-link-custom text-gray-300 hover:text-purple-400 transition-colors py-2">
+          <a href="{{ url_for('market_page') }}" class="nav-link-custom text-gray-300 hover:text-accent-400 transition-colors py-2 font-medium">
             Market
+          </a>
+          <a href="{{ url_for('categories_page') }}" class="nav-link-custom text-gray-300 hover:text-accent-400 transition-colors py-2 font-medium">
+            Categories
+          </a>
+          <a href="{{ url_for('deals_page') }}" class="nav-link-custom text-gray-300 hover:text-accent-400 transition-colors py-2 font-medium">
+            Deals
           </a>
         </div>
         
         <!-- Auth Buttons -->
         <div class="hidden md:flex items-center space-x-4">
           {% if current_user.is_authenticated %}
-            <div class="flex items-center space-x-3 px-4 py-2 rounded-xl bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30">
-              <i class="fas fa-coins text-yellow-400"></i>
-              <span class="text-green-400 font-semibold">{{ current_user.prettier_budget }}</span>
+            <div class="flex items-center space-x-3 px-4 py-2 rounded-xl bg-green-500/10 border border-green-500/20">
+              <i class="fas fa-wallet text-green-400"></i>
+              <span class="text-green-400 font-semibold font-outfit">{{ current_user.prettier_budget }}</span>
             </div>
-            <span class="text-gray-300">Welcome, <span class="text-purple-400 font-medium">{{ current_user.username }}</span></span>
-            <a href="{{ url_for('logout_page') }}" class="px-4 py-2 rounded-xl border border-red-500/50 text-red-400 hover:bg-red-500/10 transition-all duration-300">
+            <span class="text-gray-300">Hi, <span class="text-accent-400 font-medium">{{ current_user.username }}</span></span>
+            <a href="{{ url_for('logout_page') }}" class="px-4 py-2 rounded-xl border border-red-500/30 text-red-400 hover:bg-red-500/10 transition-all duration-300 text-sm font-medium">
               Logout
             </a>
           {% else %}
-            <a href="{{ url_for('login_page') }}" class="px-5 py-2.5 rounded-xl text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-300">
+            <a href="{{ url_for('login_page') }}" class="px-5 py-2.5 rounded-xl text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-300 text-sm font-medium">
               Login
             </a>
-            <a href="{{ url_for('register_page') }}" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-medium hover:shadow-lg hover:shadow-purple-500/25 transform hover:-translate-y-0.5 transition-all duration-300">
-              Register
+            <a href="{{ url_for('register_page') }}" class="px-6 py-2.5 rounded-xl bg-accent-600 text-white font-semibold hover:bg-accent-500 transition-all duration-300 text-sm shadow-lg shadow-accent-600/20">
+              Join Now
             </a>
           {% endif %}
         </div>
@@ -132,15 +136,17 @@
         <div class="flex flex-col space-y-3">
           <a href="{{ url_for('home_page') }}" class="text-white px-4 py-2 rounded-lg hover:bg-white/5 transition-colors">Home</a>
           <a href="{{ url_for('market_page') }}" class="text-gray-300 px-4 py-2 rounded-lg hover:bg-white/5 transition-colors">Market</a>
+          <a href="{{ url_for('categories_page') }}" class="text-gray-300 px-4 py-2 rounded-lg hover:bg-white/5 transition-colors">Categories</a>
+          <a href="{{ url_for('deals_page') }}" class="text-gray-300 px-4 py-2 rounded-lg hover:bg-white/5 transition-colors">Deals</a>
           {% if current_user.is_authenticated %}
             <div class="flex items-center space-x-2 px-4 py-2">
-              <i class="fas fa-coins text-yellow-400"></i>
+              <i class="fas fa-wallet text-green-400"></i>
               <span class="text-green-400">{{ current_user.prettier_budget }}</span>
             </div>
             <a href="{{ url_for('logout_page') }}" class="text-red-400 px-4 py-2 rounded-lg hover:bg-red-500/10 transition-colors">Logout</a>
           {% else %}
             <a href="{{ url_for('login_page') }}" class="text-gray-300 px-4 py-2 rounded-lg hover:bg-white/5 transition-colors">Login</a>
-            <a href="{{ url_for('register_page') }}" class="text-white px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600">Register</a>
+            <a href="{{ url_for('register_page') }}" class="text-white px-4 py-2 rounded-lg bg-accent-600">Join Now</a>
           {% endif %}
         </div>
       </div>
@@ -175,10 +181,143 @@
     {% endwith %}
 
     <!-- Main Content -->
-    {% block content %}
-    {% endblock %}
+    <main class="min-h-[80vh]">
+        {% block content %}
+        {% endblock %}
+    </main>
 
-    <!-- Mobile Menu Script -->
+    <!-- Footer -->
+    <footer class="py-20 border-t border-white/5 px-6 bg-[#0a0a0f]">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-4 gap-12 text-left">
+                <div class="col-span-2">
+                    <a href="{{ url_for('home_page') }}" class="flex items-center space-x-2 mb-8">
+                        <div class="w-10 h-10 rounded-xl bg-accent-600 flex items-center justify-center">
+                            <i class="fas fa-shopping-cart text-white"></i>
+                        </div>
+                        <span class="text-2xl font-bold font-outfit text-white">Universal Cart</span>
+                    </a>
+                    <p class="text-gray-400 max-w-sm mb-8 leading-relaxed">
+                        The ultimate destination for premium tech and accessories. We combine modern design with high-performance logistics.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="https://x.com/NOT_SUMIT_" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-gray-400 hover:text-accent-500 transition-colors border border-white/10">
+                            <i class="fa-brands fa-x-twitter"></i>
+                        </a>
+                        <a href="https://github.com/NOTSUMIT0" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-gray-400 hover:text-accent-500 transition-colors border border-white/10">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/sumit-kumar010/" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-gray-400 hover:text-accent-500 transition-colors border border-white/10">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-8 font-outfit uppercase tracking-wider text-sm">Navigation</h4>
+                    <ul class="space-y-4 text-gray-400">
+                        <li><a href="{{ url_for('home_page') }}" class="hover:text-white transition-colors">Home</a></li>
+                        <li><a href="{{ url_for('market_page') }}" class="hover:text-white transition-colors">Market</a></li>
+                        <li><a href="{{ url_for('categories_page') }}" class="hover:text-white transition-colors">Categories</a></li>
+                        <li><a href="{{ url_for('deals_page') }}" class="hover:text-white transition-colors">Deals</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-8 font-outfit uppercase tracking-wider text-sm">Account</h4>
+                    <ul class="space-y-4 text-gray-400">
+                        <li><a href="{{ url_for('login_page') }}" class="hover:text-white transition-colors">Login</a></li>
+                        <li><a href="{{ url_for('register_page') }}" class="hover:text-white transition-colors">Register</a></li>
+                        <li><button onclick="openHelpModal()" class="hover:text-white transition-colors">Help Center</button></li>
+                        <li><button onclick="openPrivacyModal()" class="hover:text-white transition-colors">Privacy Policy</button></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-20 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
+                <p>© 2026 Universal Cart. All rights reserved.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <span>Designed for Excellence</span>
+                    <span>Secure Checkout Guaranteed</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Help & Privacy Modals -->
+    <div id="helpModal" class="modal-overlay hidden">
+        <div class="modal-container">
+            <div class="modal-content-box p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-bold font-outfit text-white">Help Center</h3>
+                    <button onclick="closeHelpModal()" class="text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="space-y-6 text-left">
+                    <p class="text-gray-400">Need assistance with your orders or have any questions? Our team is here to help you 24/7.</p>
+                    <div class="p-6 rounded-2xl bg-accent-600/10 border border-accent-600/20 text-center">
+                        <i class="fas fa-envelope text-accent-500 text-3xl mb-4"></i>
+                        <p class="text-gray-300 mb-2">Email us at:</p>
+                        <a href="mailto:kumarsumeet683@gmail.com" class="text-xl font-bold text-white hover:text-accent-400 transition-colors">kumarsumeet683@gmail.com</a>
+                    </div>
+                    <button onclick="closeHelpModal()" class="w-full py-4 rounded-xl bg-accent-600 text-white font-bold hover:bg-accent-500 transition-colors">Got it</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="privacyModal" class="modal-overlay hidden">
+        <div class="modal-container">
+            <div class="modal-content-box p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-bold font-outfit text-white">Privacy Policy</h3>
+                    <button onclick="closePrivacyModal()" class="text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="space-y-6 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar text-left">
+                    <div class="space-y-4 text-gray-400 text-sm leading-relaxed">
+                        <p class="text-white font-semibold">Your data is safe with us.</p>
+                        <p>At Universal Cart, we take your privacy seriously. All your personal information, transaction history, and wallet data are encrypted using industry-standard protocols.</p>
+                        <p>We do not share your data with third parties for marketing purposes. Your information is strictly used to improve your shopping experience and process your orders securely.</p>
+                        <p class="text-white font-semibold">Security Measures:</p>
+                        <ul class="list-disc pl-5 space-y-2">
+                            <li>End-to-end encryption for all transactions.</li>
+                            <li>Two-factor authentication support.</li>
+                            <li>Regular security audits and updates.</li>
+                            <li>Secure cloud storage for all user data.</li>
+                        </ul>
+                    </div>
+                    <button onclick="closePrivacyModal()" class="w-full py-4 rounded-xl bg-accent-600 text-white font-bold hover:bg-accent-500 transition-colors">Accept & Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .modal-overlay.hidden {
+            display: none;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .modal-content-box {
+            background: #0f0f1a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 2.5rem;
+            width: 90%;
+            max-width: 500px;
+        }
+    </style>
+
+    <!-- Scripts -->
     <script>
       const mobileMenuBtn = document.getElementById('mobile-menu-btn');
       const mobileMenu = document.getElementById('mobile-menu');
@@ -197,6 +336,19 @@
           setTimeout(() => el.remove(), 500);
         });
       }, 5000);
+
+      // Modal Functions
+      function openHelpModal() { document.getElementById('helpModal').classList.remove('hidden'); }
+      function closeHelpModal() { document.getElementById('helpModal').classList.add('hidden'); }
+      function openPrivacyModal() { document.getElementById('privacyModal').classList.remove('hidden'); }
+      function closePrivacyModal() { document.getElementById('privacyModal').classList.add('hidden'); }
+
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeHelpModal();
+            closePrivacyModal();
+        }
+      });
     </script>
    </body>
 </html>

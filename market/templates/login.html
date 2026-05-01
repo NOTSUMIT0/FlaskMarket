@@ -1,121 +1,69 @@
 {% extends 'base.html' %}
 {% block title %}
-Login - Flask Market
+Login - Universal Cart
 {% endblock %}
 
 {% block content %}
-<div class="auth-page">
-    <!-- Floating Orbs -->
-    <div class="auth-orb auth-orb-1"></div>
-    <div class="auth-orb auth-orb-2"></div>
-    <div class="auth-orb auth-orb-3"></div>
+<div class="min-h-screen bg-[#0a0a0f] flex items-center justify-center p-4 md:p-8 pt-24">
+    <div class="max-w-6xl w-full bg-white/[0.02] border border-white/5 rounded-[3rem] overflow-hidden flex flex-col md:flex-row shadow-2xl">
+        <!-- Left Side: Content & Form -->
+        <div class="flex-1 p-8 md:p-16 flex flex-col justify-between">
+            <div>
+                <!-- Brand & Title -->
+                <div class="flex items-center gap-3 mb-10">
+                    <div class="w-10 h-10 rounded-xl bg-accent-600 flex items-center justify-center">
+                        <i class="fas fa-shopping-cart text-white text-lg"></i>
+                    </div>
+                    <span class="text-xl font-bold font-outfit text-white">Universal Cart</span>
+                </div>
+                
+                <h1 class="text-4xl md:text-5xl font-black font-outfit text-white mb-4">Welcome Back</h1>
+                <p class="text-gray-400 mb-10">Enter your credentials to access your account.</p>
 
-    <!-- Floating Particles -->
-    <div class="auth-particles">
-        <div class="auth-particle"></div>
-        <div class="auth-particle"></div>
-        <div class="auth-particle"></div>
-        <div class="auth-particle"></div>
-    </div>
+                <!-- Form -->
+                <form method="POST" class="space-y-6">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="space-y-2">
+                        <label class="text-sm font-bold text-gray-400 uppercase tracking-widest ml-1">Username</label>
+                        <div class="relative group">
+                            <i class="fas fa-user absolute left-5 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-accent-500 transition-colors"></i>
+                            {{ form.username(class="w-full bg-white/[0.03] border border-white/10 rounded-2xl py-4 pl-14 pr-5 text-white placeholder:text-gray-600 focus:outline-none focus:border-accent-500/50 focus:bg-white/[0.05] transition-all", placeholder="Your username") }}
+                        </div>
+                    </div>
 
-    <!-- Login Card -->
-    <div class="auth-card">
-        <!-- Icon -->
-        <div class="auth-icon-container">
-            <i class="auth-icon fas fa-user-lock"></i>
+                    <div class="space-y-2">
+                        <label class="text-sm font-bold text-gray-400 uppercase tracking-widest ml-1">Password</label>
+                        <div class="relative group">
+                            <i class="fas fa-lock absolute left-5 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-accent-500 transition-colors"></i>
+                            {{ form.password(class="w-full bg-white/[0.03] border border-white/10 rounded-2xl py-4 pl-14 pr-5 text-white placeholder:text-gray-600 focus:outline-none focus:border-accent-500/50 focus:bg-white/[0.05] transition-all", placeholder="••••••••") }}
+                        </div>
+                    </div>
+
+                    {{ form.submit(class="w-full py-4 rounded-2xl bg-accent-600 text-white font-black text-lg hover:bg-accent-500 transition-all shadow-xl shadow-accent-600/20 active:scale-[0.98]") }}
+                </form>
+
+                <p class="mt-8 text-center text-gray-400">
+                    Don't have an account? 
+                    <a href="{{ url_for('register_page') }}" class="text-accent-500 font-bold hover:underline">Register here</a>
+                </p>
+            </div>
+
+            <!-- Bottom Image (Market Shop) -->
+            <div class="mt-16 pt-10 border-t border-white/5">
+                <img src="{{ url_for('static', filename='images/market_shop.png') }}" alt="Market Shop" class="w-full h-32 object-cover rounded-2xl opacity-60 hover:opacity-100 transition-opacity">
+            </div>
         </div>
 
-        <!-- Title -->
-        <h1 class="auth-title">Welcome Back</h1>
-        <p class="auth-subtitle">Sign in to continue to Flask Market</p>
-
-        <!-- Form -->
-        <form method="POST" id="login-form">
-            {{ form.hidden_tag() }}
-
-            <!-- Username -->
-            <div class="mb-4">
-                <label class="auth-label" for="username">
-                    <i class="fas fa-user mr-2 text-purple-400"></i>Username
-                </label>
-                {{ form.username(class="auth-input", placeholder="Enter your username", id="username") }}
-            </div>
-
-            <!-- Password -->
-            <div class="mb-4">
-                <label class="auth-label" for="password">
-                    <i class="fas fa-lock mr-2 text-purple-400"></i>Password
-                </label>
-                <div class="password-wrapper">
-                    {{ form.password(class="auth-input", placeholder="Enter your password", id="password") }}
-                    <button type="button" class="password-toggle" onclick="togglePassword('password', this)">
-                        <i class="fas fa-eye"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Submit Button -->
-            {{ form.submit(class="auth-submit-btn flex items-center justify-center gap-2") }}
-        </form>
-
-        <!-- Divider -->
-        <div class="auth-divider">
-            <span>or</span>
-        </div>
-
-        <!-- Switch to Register -->
-        <p class="auth-switch">
-            Don't have an account?
-            <a href="{{ url_for('register_page') }}" class="auth-switch-link">Create one</a>
-        </p>
-
-        <!-- Features -->
-        <div class="auth-features mt-6">
-            <div class="auth-feature">
-                <div class="auth-feature-icon">
-                    <i class="fas fa-shield-alt"></i>
-                </div>
-                <span class="auth-feature-text">Secure Login</span>
-            </div>
-            <div class="auth-feature">
-                <div class="auth-feature-icon">
-                    <i class="fas fa-bolt"></i>
-                </div>
-                <span class="auth-feature-text">Fast Access</span>
-            </div>
+        <!-- Right Side: Video -->
+        <div class="hidden md:block w-[40%] relative bg-black">
+            <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover opacity-60">
+                <source src="{{ url_for('static', filename='videos/auth_video.mp4') }}" type="video/mp4">
+            </video>
+            <div class="absolute inset-0 bg-gradient-to-r from-[#0a0a0f] to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-transparent to-transparent"></div>
+            
         </div>
     </div>
 </div>
-
-<!-- Custom CSS Link -->
-<link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
-
-<script>
-    function togglePassword(inputId, button) {
-        const input = document.getElementById(inputId);
-        const icon = button.querySelector('i');
-
-        if (input.type === 'password') {
-            input.type = 'text';
-            icon.classList.remove('fa-eye');
-            icon.classList.add('fa-eye-slash');
-        } else {
-            input.type = 'password';
-            icon.classList.remove('fa-eye-slash');
-            icon.classList.add('fa-eye');
-        }
-    }
-
-    // Add input focus animations
-    document.querySelectorAll('.auth-input').forEach(input => {
-        input.addEventListener('focus', function () {
-            this.parentElement.style.transform = 'scale(1.02)';
-            this.parentElement.style.transition = 'transform 0.3s ease';
-        });
-
-        input.addEventListener('blur', function () {
-            this.parentElement.style.transform = 'scale(1)';
-        });
-    });
-</script>
 {% endblock %}

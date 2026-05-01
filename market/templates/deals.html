@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block title %}
+Exclusive Deals - Universal Cart
+{% endblock %}
+{% block content %}
+<div class="min-h-screen pt-24 pb-20 bg-[#0a0a0f]">
+    <!-- Hero Banner -->
+    <div class="max-w-7xl mx-auto px-6 mb-20">
+        <div class="relative rounded-[3.5rem] overflow-hidden bg-gradient-to-r from-accent-600 to-accent-900 p-12 md:p-20 shadow-2xl shadow-accent-600/20">
+            <div class="relative z-10 grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <div class="inline-flex items-center px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-md text-white text-sm font-black uppercase tracking-tighter mb-8">
+                        <i class="fas fa-bolt mr-2 animate-pulse"></i>Limited Time Offer
+                    </div>
+                    <h1 class="text-6xl md:text-8xl font-black font-outfit text-white mb-8 leading-tight">
+                        Flash <span class="text-white/60">Deals</span>
+                    </h1>
+                    <p class="text-white/80 text-2xl mb-12 max-w-lg leading-relaxed">
+                        Up to <span class="text-white font-black">60% OFF</span> on premium tech gadgets. Don't miss out on the biggest sale of the season!
+                    </p>
+                </div>
+                <div class="relative hidden lg:block">
+                    <img src="{{ url_for('static', filename='images/8466433.png') }}" alt="Best Offer" class="w-full h-auto drop-shadow-2xl transform hover:scale-110 transition-transform duration-700">
+                </div>
+            </div>
+            
+            <!-- Background Decoration -->
+            <div class="absolute top-0 right-0 w-full h-full overflow-hidden pointer-events-none opacity-20">
+                <div class="absolute -top-1/2 -right-1/4 w-[1000px] h-[1000px] bg-white rounded-full blur-[200px]"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Real Products from Market -->
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="mb-12">
+            <h2 class="text-3xl font-bold text-white mb-2">Deal of the Day</h2>
+            <p class="text-gray-400">Exclusive discounts on our top-rated marketplace items.</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            {% for item in items %}
+            <div class="deal-card p-1 rounded-[2.5rem] bg-gradient-to-b from-white/10 to-transparent">
+                <div class="bg-[#12121a] rounded-[2.4rem] p-6 h-full flex flex-col border border-white/5 hover:border-accent-500/30 transition-all">
+                    <div class="mb-6 relative rounded-3xl overflow-hidden aspect-square bg-white/5 flex items-center justify-center">
+                        <i class="fas fa-box-open text-4xl text-accent-500"></i>
+                        <span class="absolute top-3 left-3 bg-red-500 text-white text-[10px] font-black px-2 py-1 rounded-full">-20% DEAL</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2 truncate">{{ item.name }}</h3>
+                    <p class="text-gray-500 text-xs mb-6 flex-1 line-clamp-2">{{ item.description }}</p>
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <span class="text-gray-500 line-through text-[10px]">${{ (item.price * 1.25)|round|int }}</span>
+                            <div class="text-2xl font-black text-green-400">${{ item.price }}</div>
+                        </div>
+                        <a href="{{ url_for('market_page') }}" class="w-10 h-10 rounded-xl bg-accent-600 flex items-center justify-center text-white hover:scale-110 transition-transform shadow-lg shadow-accent-600/20">
+                            <i class="fas fa-shopping-cart text-sm"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            
+            {% if not items %}
+            <div class="col-span-full text-center py-20">
+                <i class="fas fa-store-slash text-5xl text-gray-700 mb-4"></i>
+                <p class="text-gray-500">No deals available at the moment. Check back soon!</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+</div>
+
+
+<style>
+    .deal-card {
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .deal-card:hover {
+        transform: scale(1.05);
+    }
+</style>
+{% endblock %}

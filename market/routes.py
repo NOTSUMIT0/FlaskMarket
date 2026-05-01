@@ -9,6 +9,15 @@ from flask_login import login_user, logout_user, login_required, current_user
 def home_page():
     return render_template('home.html')
 
+@app.route('/categories')
+def categories_page():
+    return render_template('categories.html')
+
+@app.route('/deals')
+def deals_page():
+    items = Item.query.filter_by(owner=None).limit(7).all()
+    return render_template('deals.html', items=items)
+
 @app.route('/market', methods=['GET', 'POST'])
 @login_required
 def market_page():

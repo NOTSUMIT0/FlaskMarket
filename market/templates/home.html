@@ -1,242 +1,129 @@
 {% extends 'base.html' %}
 {% block title %}
-Welcome to DAFUQ Market - Premium E-Commerce
+Universal Cart - Premium E-Commerce Experience
 {% endblock %}
 {% block content %}
-<div class="home-page">
+<div class="home-page overflow-hidden">
     <!-- Hero Section -->
-    <section class="hero-section min-h-screen flex items-center justify-center relative pt-20">
-        <!-- Floating Orbs -->
-        <div class="hero-orb hero-orb-1"></div>
-        <div class="hero-orb hero-orb-2"></div>
-        <div class="hero-orb hero-orb-3"></div>
+    <section class="hero-section min-h-[90vh] flex items-center relative pt-20 px-6">
+        <div class="absolute inset-0 z-0">
+            <img src="{{ url_for('static', filename='images/ecommerce_hero_bg.png') }}" alt="Background" class="w-full h-full object-cover opacity-30">
+            <div class="absolute inset-0 bg-gradient-to-b from-[#0a0a0f] via-transparent to-[#0a0a0f]"></div>
+        </div>
 
-        <!-- Floating Particles -->
-        <div class="particle particle-1"></div>
-        <div class="particle particle-2"></div>
-        <div class="particle particle-3"></div>
-        <div class="particle particle-4"></div>
-        <div class="particle particle-5"></div>
+        <div class="max-w-7xl mx-auto w-full relative z-10 grid lg:grid-cols-2 gap-12 items-center">
+            <div class="hero-text animate-fadeInLeft">
+                <div class="inline-flex items-center px-3 py-1 rounded-full bg-accent-500/10 border border-accent-500/20 text-accent-400 text-xs font-bold uppercase tracking-widest mb-6">
+                    <span class="w-2 h-2 rounded-full bg-accent-500 mr-2 animate-pulse"></span>
+                    Next Gen Shopping
+                </div>
+                
+                <h1 class="text-6xl md:text-8xl font-black font-outfit text-white mb-8 leading-[1.1]">
+                    Shop the <span class="text-accent-500">Future</span>
+                </h1>
+                
+                <p class="text-xl text-gray-400 mb-10 max-w-lg leading-relaxed">
+                    Experience the next evolution of e-commerce. <span class="text-white font-medium">Universal Cart</span> brings you the most exclusive products with a seamless, high-performance interface.
+                </p>
 
-        <!-- Hero Content -->
-        <div class="hero-content relative z-10 text-center px-4 max-w-5xl mx-auto">
-            <div class="mb-6">
-                <span
-                    class="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-indigo-500/20 to-purple-500/20 border border-purple-500/30 text-purple-300 text-sm font-medium mb-6 animate-pulse">
-                    <i class="fas fa-sparkles mr-2"></i>
-                    Discover Premium Products
-                </span>
+                <div class="flex flex-wrap gap-4">
+                    <a href="{{ url_for('market_page') }}" class="px-8 py-4 rounded-xl bg-accent-600 text-white font-bold text-lg hover:bg-accent-500 transition-all duration-300 shadow-xl shadow-accent-600/20 flex items-center group">
+                        Browse Market
+                        <i class="fas fa-chevron-right ml-3 text-sm group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                    <a href="#features" class="px-8 py-4 rounded-xl bg-white/5 border border-white/10 text-white font-bold text-lg hover:bg-white/10 transition-all duration-300">
+                        Explore Features
+                    </a>
+                </div>
             </div>
 
-            <h1 class="hero-title text-5xl md:text-7xl lg:text-8xl font-extrabold mb-6 leading-tight">
-                DAFUQ Market
-            </h1>
-
-            <p class="hero-subtitle text-xl md:text-2xl text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed">
-                Your one-stop destination for <span class="text-purple-400 font-semibold">premium products</span>.
-                Start shopping with confidence today.
-            </p>
-
-            <div class="hero-buttons flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="{{ url_for('market_page') }}"
-                    class="btn-primary-glow px-8 py-4 rounded-2xl text-white font-semibold text-lg flex items-center space-x-3 group">
-                    <span>Get Started</span>
-                    <i class="fas fa-arrow-right transform group-hover:translate-x-1 transition-transform"></i>
-                </a>
-                <a href="#features"
-                    class="btn-outline-glow px-8 py-4 rounded-2xl text-gray-300 font-semibold text-lg flex items-center space-x-3">
-                    <i class="fas fa-play-circle"></i>
-                    <span>Learn More</span>
-                </a>
-            </div>
-
-            <!-- Scroll Indicator -->
-            <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-                <a href="#stats" class="text-gray-500 hover:text-purple-400 transition-colors">
-                    <i class="fas fa-chevron-down text-2xl"></i>
-                </a>
+            <div class="hidden lg:block relative animate-fadeInRight">
+                <div class="relative z-10 p-4">
+                    <img src="{{ url_for('static', filename='images/k.png') }}" alt="Universal Cart Desktop" class="w-full h-auto drop-shadow-[0_20px_50px_rgba(59,130,246,0.3)] transform hover:scale-105 transition-transform duration-700">
+                </div>
+                <!-- Decorative Elements -->
+                <div class="absolute -top-10 -right-10 w-40 h-40 bg-accent-600/20 rounded-full blur-3xl"></div>
+                <div class="absolute -bottom-10 -left-10 w-60 h-60 bg-blue-600/10 rounded-full blur-3xl"></div>
             </div>
         </div>
     </section>
 
-    <!-- Stats Section -->
-    <section id="stats" class="stats-section py-20 px-4">
-        <div class="max-w-6xl mx-auto">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <!-- Stat 1 -->
-                <div class="stat-card rounded-2xl p-6 text-center">
-                    <div class="stat-icon w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-box-open text-2xl text-indigo-400"></i>
-                    </div>
-                    <div class="stat-number text-4xl font-bold mb-2">500+</div>
-                    <div class="text-gray-400 text-sm uppercase tracking-wider">Products</div>
+    <!-- Categories / Features Bar (Replaced Apple, Google etc) -->
+    <section class="py-16 border-y border-white/5 bg-white/[0.02]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="flex flex-col items-center justify-center p-6 rounded-2xl bg-white/[0.03] border border-white/5 hover:border-accent-500/20 transition-all group">
+                    <i class="fas fa-mobile-alt text-3xl text-accent-400 mb-4 group-hover:scale-110 transition-transform"></i>
+                    <span class="text-sm font-bold font-outfit uppercase tracking-widest text-gray-400 group-hover:text-white">Smartphones</span>
                 </div>
-
-                <!-- Stat 2 -->
-                <div class="stat-card rounded-2xl p-6 text-center">
-                    <div class="stat-icon w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-users text-2xl text-purple-400"></i>
-                    </div>
-                    <div class="stat-number text-4xl font-bold mb-2">10K+</div>
-                    <div class="text-gray-400 text-sm uppercase tracking-wider">Users</div>
+                <div class="flex flex-col items-center justify-center p-6 rounded-2xl bg-white/[0.03] border border-white/5 hover:border-accent-500/20 transition-all group">
+                    <i class="fas fa-laptop text-3xl text-emerald-400 mb-4 group-hover:scale-110 transition-transform"></i>
+                    <span class="text-sm font-bold font-outfit uppercase tracking-widest text-gray-400 group-hover:text-white">Laptops</span>
                 </div>
-
-                <!-- Stat 3 -->
-                <div class="stat-card rounded-2xl p-6 text-center">
-                    <div class="stat-icon w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-shopping-bag text-2xl text-cyan-400"></i>
-                    </div>
-                    <div class="stat-number text-4xl font-bold mb-2">25K+</div>
-                    <div class="text-gray-400 text-sm uppercase tracking-wider">Transactions</div>
+                <div class="flex flex-col items-center justify-center p-6 rounded-2xl bg-white/[0.03] border border-white/5 hover:border-accent-500/20 transition-all group">
+                    <i class="fas fa-gamepad text-3xl text-purple-400 mb-4 group-hover:scale-110 transition-transform"></i>
+                    <span class="text-sm font-bold font-outfit uppercase tracking-widest text-gray-400 group-hover:text-white">Gaming</span>
                 </div>
-
-                <!-- Stat 4 -->
-                <div class="stat-card rounded-2xl p-6 text-center">
-                    <div class="stat-icon w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-star text-2xl text-yellow-400"></i>
-                    </div>
-                    <div class="stat-number text-4xl font-bold mb-2">4.9</div>
-                    <div class="text-gray-400 text-sm uppercase tracking-wider">Rating</div>
+                <div class="flex flex-col items-center justify-center p-6 rounded-2xl bg-white/[0.03] border border-white/5 hover:border-accent-500/20 transition-all group">
+                    <i class="fas fa-headphones text-3xl text-orange-400 mb-4 group-hover:scale-110 transition-transform"></i>
+                    <span class="text-sm font-bold font-outfit uppercase tracking-widest text-gray-400 group-hover:text-white">Accessories</span>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Features Section -->
-    <section id="features" class="features-section py-24 px-4">
-        <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-16">
-                <span
-                    class="inline-block px-4 py-2 rounded-full bg-purple-500/10 text-purple-400 text-sm font-medium mb-4">
-                    Why Choose Us
-                </span>
-                <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">
-                    Premium <span
-                        class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">Features</span>
-                </h2>
-                <p class="text-gray-400 text-lg max-w-2xl mx-auto">
-                    Experience shopping like never before with our cutting-edge features
-                </p>
-            </div>
-
-            <div class="grid md:grid-cols-3 gap-8">
-                <!-- Feature 1 -->
-                <div class="feature-card rounded-3xl p-8 text-center">
-                    <div
-                        class="feature-icon-wrapper w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                        <i class="feature-icon fas fa-gem text-4xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-white mb-4">Premium Products</h3>
-                    <p class="text-gray-400 leading-relaxed">
-                        Discover our carefully curated collection of high-quality products that meet your every need and
-                        exceed expectations.
-                    </p>
-                </div>
-
-                <!-- Feature 2 -->
-                <div class="feature-card rounded-3xl p-8 text-center">
-                    <div
-                        class="feature-icon-wrapper w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                        <i class="feature-icon fas fa-shield-alt text-4xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-white mb-4">Secure Shopping</h3>
-                    <p class="text-gray-400 leading-relaxed">
-                        Shop with confidence knowing your transactions and personal information are protected by
-                        advanced security measures.
-                    </p>
-                </div>
-
-                <!-- Feature 3 -->
-                <div class="feature-card rounded-3xl p-8 text-center">
-                    <div
-                        class="feature-icon-wrapper w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                        <i class="feature-icon fas fa-bolt text-4xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-white mb-4">Lightning Fast</h3>
-                    <p class="text-gray-400 leading-relaxed">
-                        Experience blazing-fast performance with our optimized platform designed for seamless browsing
-                        and quick checkouts.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Why Choose Us Section -->
-    <section class="why-section py-24 px-4">
-        <div class="max-w-6xl mx-auto">
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div>
-                    <span
-                        class="inline-block px-4 py-2 rounded-full bg-indigo-500/10 text-indigo-400 text-sm font-medium mb-4">
-                        Our Promise
-                    </span>
-                    <h2 class="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
-                        The Best Market for Your
-                        <span
-                            class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">Accessories</span>
+    <section id="features" class="py-32 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-3 gap-12">
+                <div class="lg:col-span-1">
+                    <h2 class="text-4xl md:text-5xl font-black font-outfit mb-8 leading-tight">
+                        Built for the <br><span class="text-accent-500">Modern</span> Shopper
                     </h2>
-                    <p class="text-gray-400 text-lg mb-8">
-                        We're committed to providing you with the best shopping experience. Here's what sets us apart
-                        from the rest.
+                    <p class="text-gray-400 text-lg mb-10">
+                        We've redefined every step of the shopping experience to be faster, safer, and more rewarding.
                     </p>
-
-                    <div class="space-y-4">
-                        <div class="why-card flex items-start space-x-4 p-4 rounded-xl">
-                            <span class="why-number text-3xl font-bold">01</span>
-                            <div>
-                                <h4 class="text-white font-semibold mb-1">Quality Guaranteed</h4>
-                                <p class="text-gray-400 text-sm">Every product is verified for authenticity and quality.
-                                </p>
-                            </div>
+                    <div class="flex items-center space-x-4 text-white">
+                        <div class="flex -space-x-3">
+                            <div class="w-10 h-10 rounded-full bg-gray-800 border-2 border-[#0a0a0f] flex items-center justify-center text-xs">JS</div>
+                            <div class="w-10 h-10 rounded-full bg-accent-600 border-2 border-[#0a0a0f] flex items-center justify-center text-xs text-white">MT</div>
+                            <div class="w-10 h-10 rounded-full bg-emerald-600 border-2 border-[#0a0a0f] flex items-center justify-center text-xs">SK</div>
                         </div>
-
-                        <div class="why-card flex items-start space-x-4 p-4 rounded-xl">
-                            <span class="why-number text-3xl font-bold">02</span>
-                            <div>
-                                <h4 class="text-white font-semibold mb-1">24/7 Support</h4>
-                                <p class="text-gray-400 text-sm">Our support team is always ready to help you.</p>
-                            </div>
-                        </div>
-
-                        <div class="why-card flex items-start space-x-4 p-4 rounded-xl">
-                            <span class="why-number text-3xl font-bold">03</span>
-                            <div>
-                                <h4 class="text-white font-semibold mb-1">Easy Returns</h4>
-                                <p class="text-gray-400 text-sm">Not satisfied? Return within 30 days hassle-free.</p>
-                            </div>
-                        </div>
+                        <span class="text-sm font-medium text-gray-400">Trusted by 10k+ users</span>
                     </div>
                 </div>
 
-                <div class="relative">
-                    <div
-                        class="absolute inset-0 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-3xl blur-3xl">
-                    </div>
-                    <div
-                        class="relative bg-gradient-to-br from-gray-800/50 to-gray-900/50 rounded-3xl p-8 border border-white/5">
-                        <div class="grid grid-cols-2 gap-4">
-                            <div
-                                class="bg-white/5 rounded-2xl p-6 text-center transform hover:scale-105 transition-transform cursor-pointer">
-                                <i class="fas fa-truck text-3xl text-cyan-400 mb-3"></i>
-                                <p class="text-white font-medium">Free Shipping</p>
-                            </div>
-                            <div
-                                class="bg-white/5 rounded-2xl p-6 text-center transform hover:scale-105 transition-transform cursor-pointer">
-                                <i class="fas fa-credit-card text-3xl text-green-400 mb-3"></i>
-                                <p class="text-white font-medium">Secure Pay</p>
-                            </div>
-                            <div
-                                class="bg-white/5 rounded-2xl p-6 text-center transform hover:scale-105 transition-transform cursor-pointer">
-                                <i class="fas fa-gift text-3xl text-pink-400 mb-3"></i>
-                                <p class="text-white font-medium">Gift Cards</p>
-                            </div>
-                            <div
-                                class="bg-white/5 rounded-2xl p-6 text-center transform hover:scale-105 transition-transform cursor-pointer">
-                                <i class="fas fa-headset text-3xl text-yellow-400 mb-3"></i>
-                                <p class="text-white font-medium">24/7 Help</p>
-                            </div>
+                <div class="lg:col-span-2 grid md:grid-cols-2 gap-6">
+                    <div class="feature-card p-10 rounded-[2rem] bg-white/[0.03] border border-white/5 hover:border-accent-500/30 transition-all duration-300 group">
+                        <div class="w-14 h-14 rounded-2xl bg-accent-600/10 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-shield-check text-2xl text-accent-500"></i>
                         </div>
+                        <h3 class="text-2xl font-bold mb-4 font-outfit">Verified Sellers</h3>
+                        <p class="text-gray-400 leading-relaxed">Every item in our market undergoes a rigorous quality check to ensure you only get the best.</p>
+                    </div>
+
+                    <div class="feature-card p-10 rounded-[2rem] bg-white/[0.03] border border-white/5 hover:border-accent-500/30 transition-all duration-300 group">
+                        <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-bolt text-2xl text-emerald-500"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 font-outfit">Instant Delivery</h3>
+                        <p class="text-gray-400 leading-relaxed">Our logistics engine ensures that your orders are processed and shipped within minutes.</p>
+                    </div>
+
+                    <div class="feature-card p-10 rounded-[2rem] bg-white/[0.03] border border-white/5 hover:border-accent-500/30 transition-all duration-300 group">
+                        <div class="w-14 h-14 rounded-2xl bg-purple-500/10 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-wallet text-2xl text-purple-500"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 font-outfit">Wallet System</h3>
+                        <p class="text-gray-400 leading-relaxed">Manage your funds securely with our built-in wallet. Instant refunds and easy top-ups.</p>
+                    </div>
+
+                    <div class="feature-card p-10 rounded-[2rem] bg-white/[0.03] border border-white/5 hover:border-accent-500/30 transition-all duration-300 group">
+                        <div class="w-14 h-14 rounded-2xl bg-yellow-500/10 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-star text-2xl text-yellow-500"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 font-outfit">Rewards Points</h3>
+                        <p class="text-gray-400 leading-relaxed">Earn points on every purchase and redeem them for exclusive discounts and free shipping.</p>
                     </div>
                 </div>
             </div>
@@ -244,166 +131,24 @@ Welcome to DAFUQ Market - Premium E-Commerce
     </section>
 
     <!-- CTA Section -->
-    <section class="cta-section py-24 px-4">
-        <div class="max-w-4xl mx-auto text-center relative z-10">
-            <h2 class="cta-title text-4xl md:text-5xl font-bold text-white mb-6">
-                Ready to Start Shopping?
-            </h2>
-            <p class="cta-subtitle text-xl text-gray-300 mb-10 max-w-2xl mx-auto">
-                Join thousands of satisfied customers and discover amazing products at unbeatable prices.
-            </p>
-            <div class="cta-button">
-                <a href="{{ url_for('register_page') }}"
-                    class="btn-primary-glow inline-flex items-center space-x-3 px-10 py-5 rounded-2xl text-white font-semibold text-lg group">
-                    <span>Create Free Account</span>
-                    <i class="fas fa-arrow-right transform group-hover:translate-x-2 transition-transform"></i>
+    <section class="py-24 px-6">
+        <div class="max-w-5xl mx-auto rounded-[3rem] bg-accent-600 p-12 md:p-20 relative overflow-hidden text-center">
+            <div class="absolute -top-20 -left-20 w-80 h-80 bg-white/10 rounded-full blur-3xl"></div>
+            <div class="absolute -bottom-20 -right-20 w-80 h-80 bg-black/10 rounded-full blur-3xl"></div>
+            
+            <div class="relative z-10">
+                <h2 class="text-4xl md:text-6xl font-black font-outfit text-white mb-8">
+                    Start Your Shopping <br>Journey Today
+                </h2>
+                <p class="text-white/80 text-xl mb-12 max-w-2xl mx-auto">
+                    Join Universal Cart and get access to exclusive deals, premium support, and a $10,000 starting balance.
+                </p>
+                <a href="{{ url_for('register_page') }}" class="px-12 py-5 rounded-2xl bg-white text-accent-600 font-black text-xl hover:scale-105 transition-transform shadow-2xl shadow-black/20 inline-block">
+                    Create Free Account
                 </a>
             </div>
-            <p class="mt-6 text-gray-500 text-sm">
-                <i class="fas fa-lock mr-2"></i>
-                No credit card required. Start shopping in seconds.
-            </p>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer py-16 px-4">
-        <div class="max-w-6xl mx-auto">
-            <div class="grid md:grid-cols-4 gap-12 mb-12">
-                <!-- Brand -->
-                <div class="md:col-span-2">
-                    <div class="flex items-center space-x-3 mb-6">
-                        <div
-                            class="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
-                            <i class="fas fa-store text-white text-xl"></i>
-                        </div>
-                        <span class="text-2xl font-bold text-white">Flask Market</span>
-                    </div>
-                    <p class="text-gray-400 mb-6 max-w-md">
-                        Your trusted e-commerce destination for premium products. Shop with confidence and enjoy the
-                        best deals.
-                    </p>
-                    <div class="flex space-x-4">
-                        <a href="#"
-                            class="social-icon w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white transition-all">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#"
-                            class="social-icon w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white transition-all">
-                            <i class="fab fa-facebook"></i>
-                        </a>
-                        <a href="#"
-                            class="social-icon w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white transition-all">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#"
-                            class="social-icon w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white transition-all">
-                            <i class="fab fa-github"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Quick Links -->
-                <div>
-                    <h4 class="text-white font-semibold mb-6">Quick Links</h4>
-                    <ul class="space-y-3">
-                        <li><a href="{{ url_for('home_page') }}" class="footer-link">Home</a></li>
-                        <li><a href="{{ url_for('market_page') }}" class="footer-link">Market</a></li>
-                        <li><a href="#features" class="footer-link">Features</a></li>
-                        <li><a href="#" class="footer-link">About Us</a></li>
-                    </ul>
-                </div>
-
-                <!-- Account -->
-                <div>
-                    <h4 class="text-white font-semibold mb-6">Account</h4>
-                    <ul class="space-y-3">
-                        <li><a href="{{ url_for('login_page') }}" class="footer-link">Login</a></li>
-                        <li><a href="{{ url_for('register_page') }}" class="footer-link">Register</a></li>
-                        <li><a href="#" class="footer-link">My Orders</a></li>
-                        <li><a href="#" class="footer-link">Wishlist</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Bottom Bar -->
-            <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between">
-                <p class="text-gray-500 text-sm mb-4 md:mb-0">
-                    © 2026 Flask Market. All rights reserved.
-                </p>
-                <div class="flex items-center space-x-6">
-                    <a href="#" class="text-gray-500 hover:text-gray-300 text-sm transition-colors">Privacy Policy</a>
-                    <a href="#" class="text-gray-500 hover:text-gray-300 text-sm transition-colors">Terms of Service</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-</div>
-
-<!-- Scroll Animation Script -->
-<script>
-    // Intersection Observer for scroll animations
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
-        });
-    }, observerOptions);
-
-    document.querySelectorAll('.fade-in-view').forEach(el => {
-        observer.observe(el);
-    });
-
-    // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    });
-
-    // Counter animation for stats
-    function animateCounter(el, target) {
-        let current = 0;
-        const increment = target / 50;
-        const timer = setInterval(() => {
-            current += increment;
-            if (current >= target) {
-                el.textContent = target >= 1000 ? (target / 1000).toFixed(0) + 'K+' : target + (target < 10 ? '' : '+');
-                clearInterval(timer);
-            } else {
-                el.textContent = Math.floor(current);
-            }
-        }, 30);
-    }
-
-    // Trigger counter animation when stats section is visible
-    const statsSection = document.getElementById('stats');
-    let counterAnimated = false;
-
-    const statsObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting && !counterAnimated) {
-                counterAnimated = true;
-                // Animate counters here if needed
-            }
-        });
-    }, { threshold: 0.5 });
-
-    if (statsSection) {
-        statsObserver.observe(statsSection);
-    }
-</script>
+    </div>
 {% endblock %}

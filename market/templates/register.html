@@ -1,176 +1,87 @@
 {% extends 'base.html' %}
 {% block title %}
-Register - Flask Market
+Register - Universal Cart
 {% endblock %}
 
 {% block content %}
-<div class="auth-page">
-    <!-- Floating Orbs -->
-    <div class="auth-orb auth-orb-1"></div>
-    <div class="auth-orb auth-orb-2"></div>
-    <div class="auth-orb auth-orb-3"></div>
+<div class="min-h-screen bg-[#0a0a0f] flex items-center justify-center p-4 md:p-8 pt-24">
+    <div class="max-w-6xl w-full bg-white/[0.02] border border-white/5 rounded-[3rem] overflow-hidden flex flex-col md:flex-row shadow-2xl">
+        <!-- Left Side: Content & Form -->
+        <div class="flex-1 p-8 md:p-12 flex flex-col justify-between">
+            <div>
+                <!-- Brand & Title -->
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="w-10 h-10 rounded-xl bg-accent-600 flex items-center justify-center">
+                        <i class="fas fa-shopping-cart text-white text-lg"></i>
+                    </div>
+                    <span class="text-xl font-bold font-outfit text-white">Universal Cart</span>
+                </div>
+                
+                <h1 class="text-4xl md:text-5xl font-black font-outfit text-white mb-4">Create Account</h1>
+                <p class="text-gray-400 mb-8">Join our community and start your premium shopping journey.</p>
 
-    <!-- Floating Particles -->
-    <div class="auth-particles">
-        <div class="auth-particle"></div>
-        <div class="auth-particle"></div>
-        <div class="auth-particle"></div>
-        <div class="auth-particle"></div>
-    </div>
+                <!-- Form -->
+                <form method="POST" class="space-y-5">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="grid md:grid-cols-2 gap-5">
+                        <div class="space-y-2">
+                            <label class="text-sm font-bold text-gray-400 uppercase tracking-widest ml-1">Username</label>
+                            <div class="relative group">
+                                <i class="fas fa-user absolute left-5 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-accent-500 transition-colors"></i>
+                                {{ form.username(class="w-full bg-white/[0.03] border border-white/10 rounded-2xl py-3.5 pl-14 pr-5 text-white placeholder:text-gray-600 focus:outline-none focus:border-accent-500/50 focus:bg-white/[0.05] transition-all", placeholder="Username") }}
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-sm font-bold text-gray-400 uppercase tracking-widest ml-1">Email</label>
+                            <div class="relative group">
+                                <i class="fas fa-envelope absolute left-5 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-accent-500 transition-colors"></i>
+                                {{ form.email_address(class="w-full bg-white/[0.03] border border-white/10 rounded-2xl py-3.5 pl-14 pr-5 text-white placeholder:text-gray-600 focus:outline-none focus:border-accent-500/50 focus:bg-white/[0.05] transition-all", placeholder="Email address") }}
+                            </div>
+                        </div>
+                    </div>
 
-    <!-- Register Card -->
-    <div class="auth-card" style="max-width: 480px;">
-        <!-- Icon -->
-        <div class="auth-icon-container">
-            <i class="auth-icon fas fa-user-plus"></i>
+                    <div class="grid md:grid-cols-2 gap-5">
+                        <div class="space-y-2">
+                            <label class="text-sm font-bold text-gray-400 uppercase tracking-widest ml-1">Password</label>
+                            <div class="relative group">
+                                <i class="fas fa-lock absolute left-5 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-accent-500 transition-colors"></i>
+                                {{ form.password1(class="w-full bg-white/[0.03] border border-white/10 rounded-2xl py-3.5 pl-14 pr-5 text-white placeholder:text-gray-600 focus:outline-none focus:border-accent-500/50 focus:bg-white/[0.05] transition-all", placeholder="••••••••") }}
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-sm font-bold text-gray-400 uppercase tracking-widest ml-1">Confirm</label>
+                            <div class="relative group">
+                                <i class="fas fa-check-circle absolute left-5 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-accent-500 transition-colors"></i>
+                                {{ form.password2(class="w-full bg-white/[0.03] border border-white/10 rounded-2xl py-3.5 pl-14 pr-5 text-white placeholder:text-gray-600 focus:outline-none focus:border-accent-500/50 focus:bg-white/[0.05] transition-all", placeholder="••••••••") }}
+                            </div>
+                        </div>
+                    </div>
+
+                    {{ form.submit(class="w-full py-4 rounded-2xl bg-accent-600 text-white font-black text-lg hover:bg-accent-500 transition-all shadow-xl shadow-accent-600/20 active:scale-[0.98]") }}
+                </form>
+
+                <p class="mt-6 text-center text-gray-400">
+                    Already have an account? 
+                    <a href="{{ url_for('login_page') }}" class="text-accent-500 font-bold hover:underline">Sign in</a>
+                </p>
+            </div>
+
+            <!-- Bottom Image (Market Shop) -->
+            <div class="mt-12 pt-8 border-t border-white/5">
+                <img src="{{ url_for('static', filename='images/market_shop.png') }}" alt="Market Shop" class="w-full h-24 object-cover rounded-2xl opacity-60 hover:opacity-100 transition-opacity">
+            </div>
         </div>
 
-        <!-- Title -->
-        <h1 class="auth-title">Create Account</h1>
-        <p class="auth-subtitle">Join Flask Market and start shopping today</p>
-
-        <!-- Form -->
-        <form method="POST" id="register-form">
-            {{ form.hidden_tag() }}
-
-            <!-- Username -->
-            <div class="mb-4">
-                <label class="auth-label" for="username">
-                    <i class="fas fa-user mr-2 text-purple-400"></i>Username
-                </label>
-                {{ form.username(class="auth-input", placeholder="Choose a username", id="username") }}
-            </div>
-
-            <!-- Email -->
-            <div class="mb-4">
-                <label class="auth-label" for="email_address">
-                    <i class="fas fa-envelope mr-2 text-purple-400"></i>Email Address
-                </label>
-                {{ form.email_address(class="auth-input", placeholder="Enter your email", id="email_address") }}
-            </div>
-
-            <!-- Password Row -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <!-- Password -->
-                <div>
-                    <label class="auth-label" for="password1">
-                        <i class="fas fa-lock mr-2 text-purple-400"></i>Password
-                    </label>
-                    <div class="password-wrapper">
-                        {{ form.password1(class="auth-input", placeholder="Create password", id="password1") }}
-                        <button type="button" class="password-toggle" onclick="togglePassword('password1', this)">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Confirm Password -->
-                <div>
-                    <label class="auth-label" for="password2">
-                        <i class="fas fa-check-circle mr-2 text-purple-400"></i>Confirm
-                    </label>
-                    <div class="password-wrapper">
-                        {{ form.password2(class="auth-input", placeholder="Confirm password", id="password2") }}
-                        <button type="button" class="password-toggle" onclick="togglePassword('password2', this)">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Features Grid -->
-            <div class="auth-features">
-                <div class="auth-feature">
-                    <div class="auth-feature-icon">
-                        <i class="fas fa-gift"></i>
-                    </div>
-                    <span class="auth-feature-text">Free $10000 Starting Balance</span>
-                </div>
-                <div class="auth-feature">
-                    <div class="auth-feature-icon">
-                        <i class="fas fa-shopping-bag"></i>
-                    </div>
-                    <span class="auth-feature-text">Exclusive Access</span>
-                </div>
-                <div class="auth-feature">
-                    <div class="auth-feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <span class="auth-feature-text">Secure Account</span>
-                </div>
-                <div class="auth-feature">
-                    <div class="auth-feature-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <span class="auth-feature-text">Instant Setup</span>
-                </div>
-            </div>
-
-            <!-- Submit Button -->
-            {{ form.submit(class="auth-submit-btn flex items-center justify-center gap-2") }}
-        </form>
-
-        <!-- Divider -->
-        <div class="auth-divider">
-            <span>or</span>
+        <!-- Right Side: Video -->
+        <div class="hidden md:block w-[40%] relative bg-black">
+            <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover opacity-60">
+                <source src="{{ url_for('static', filename='videos/auth_video.mp4') }}" type="video/mp4">
+            </video>
+            <div class="absolute inset-0 bg-gradient-to-r from-[#0a0a0f] to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-transparent to-transparent"></div>
+            
         </div>
-
-        <!-- Switch to Login -->
-        <p class="auth-switch">
-            Already have an account?
-            <a href="{{ url_for('login_page') }}" class="auth-switch-link">Sign in</a>
-        </p>
     </div>
 </div>
-
-<!-- Custom CSS Link -->
-<link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
-
-<script>
-    function togglePassword(inputId, button) {
-        const input = document.getElementById(inputId);
-        const icon = button.querySelector('i');
-
-        if (input.type === 'password') {
-            input.type = 'text';
-            icon.classList.remove('fa-eye');
-            icon.classList.add('fa-eye-slash');
-        } else {
-            input.type = 'password';
-            icon.classList.remove('fa-eye-slash');
-            icon.classList.add('fa-eye');
-        }
-    }
-
-    // Add input focus animations
-    document.querySelectorAll('.auth-input').forEach(input => {
-        input.addEventListener('focus', function () {
-            this.parentElement.style.transform = 'scale(1.02)';
-            this.parentElement.style.transition = 'transform 0.3s ease';
-        });
-
-        input.addEventListener('blur', function () {
-            this.parentElement.style.transform = 'scale(1)';
-        });
-    });
-
-    // Password match indicator
-    const password1 = document.getElementById('password1');
-    const password2 = document.getElementById('password2');
-
-    if (password2) {
-        password2.addEventListener('input', function () {
-            if (this.value === password1.value && this.value !== '') {
-                this.style.borderColor = '#22c55e';
-                this.style.boxShadow = '0 0 15px rgba(34, 197, 94, 0.2)';
-            } else if (this.value !== '') {
-                this.style.borderColor = '#ef4444';
-                this.style.boxShadow = '0 0 15px rgba(239, 68, 68, 0.2)';
-            } else {
-                this.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-                this.style.boxShadow = 'none';
-            }
-        });
-    }
-</script>
 {% endblock %}

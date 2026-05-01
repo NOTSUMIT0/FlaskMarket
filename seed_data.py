@@ -28,7 +28,18 @@ SAMPLE_PRODUCTS = [
         "barcode": "823456789031",
         "description": "Google's AI-powered smartphone with Tensor G3 chip, 50MP camera, 7 years of updates, and best-in-class computational photography."
     },
-    
+    {
+        "name": "iPhone 16 Pro",
+        "price": 1199,
+        "barcode": "823456789032",
+        "description": "Latest Apple iPhone with A17 Pro chip, titanium design, and advanced camera system. Features 48MP main camera and USB-C connectivity."
+    },
+    {
+        "name": "Samsung Galaxy S25 Ultra",
+        "price": 1299,
+        "barcode": "823456789033",
+        "description": "Premium Android flagship with S Pen, 200MP camera, Snapdragon 8 Gen 3, titanium frame, and 5000mAh battery with 45W charging."
+    },
     # Laptops & Tablets
     {
         "name": "MacBook Air M3",

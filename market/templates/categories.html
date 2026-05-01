@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% block title %}
+Categories - Universal Cart
+{% endblock %}
+{% block content %}
+<div class="min-h-screen pt-24 pb-16 px-6 bg-[#0a0a0f]">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-16">
+            <h1 class="text-5xl md:text-6xl font-black font-outfit text-white mb-6">
+                Explore <span class="text-accent-500">Categories</span>
+            </h1>
+            <p class="text-gray-400 text-xl max-w-2xl mx-auto">
+                Discover our curated selection of premium electronics and accessories across various specialized categories.
+            </p>
+        </div>
+
+        <!-- Categories Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Smartphones -->
+            <div class="category-card relative group overflow-hidden rounded-[2.5rem] bg-white/[0.02] border border-white/5 hover:border-accent-500/30 transition-all duration-500">
+                <div class="p-10 flex flex-col h-full">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-12 h-12 rounded-2xl bg-accent-500/10 flex items-center justify-center">
+                                <i class="fas fa-mobile-alt text-2xl text-accent-500"></i>
+                            </div>
+                            <h2 class="text-3xl font-bold font-outfit text-white">Smartphones</h2>
+                        </div>
+                        <p class="text-gray-400 text-lg mb-8 max-w-xs">The latest flagship devices from world-leading brands, featuring cutting-edge AI and camera tech.</p>
+                        <a href="{{ url_for('market_page') }}" class="inline-flex items-center text-accent-400 font-bold hover:text-white transition-colors group/link">
+                            Explore Collection
+                            <i class="fas fa-arrow-right ml-2 group-hover/link:translate-x-2 transition-transform"></i>
+                        </a>
+                    </div>
+                    <div class="absolute -right-10 bottom-0 w-64 h-64 opacity-80 group-hover:scale-110 transition-transform duration-700">
+                        <img src="{{ url_for('static', filename='images/cat_smartphones.png') }}" alt="Smartphones" class="w-full h-full object-contain">
+                    </div>
+                </div>
+                <!-- Background Glow -->
+                <div class="absolute top-0 right-0 w-64 h-64 bg-accent-600/5 rounded-full blur-[100px] pointer-events-none"></div>
+            </div>
+
+            <!-- Laptops -->
+            <div class="category-card relative group overflow-hidden rounded-[2.5rem] bg-white/[0.02] border border-white/5 hover:border-emerald-500/30 transition-all duration-500">
+                <div class="p-10 flex flex-col h-full">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center">
+                                <i class="fas fa-laptop text-2xl text-emerald-500"></i>
+                            </div>
+                            <h2 class="text-3xl font-bold font-outfit text-white">Laptops</h2>
+                        </div>
+                        <p class="text-gray-400 text-lg mb-8 max-w-xs">From ultra-thin workstations to high-performance gaming rigs built for creators and pros.</p>
+                        <a href="{{ url_for('market_page') }}" class="inline-flex items-center text-emerald-400 font-bold hover:text-white transition-colors group/link">
+                            Explore Collection
+                            <i class="fas fa-arrow-right ml-2 group-hover/link:translate-x-2 transition-transform"></i>
+                        </a>
+                    </div>
+                    <div class="absolute -right-12 bottom-0 w-72 h-72 opacity-80 group-hover:scale-110 transition-transform duration-700">
+                        <img src="{{ url_for('static', filename='images/cat_laptops.png') }}" alt="Laptops" class="w-full h-full object-contain">
+                    </div>
+                </div>
+                <!-- Background Glow -->
+                <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-600/5 rounded-full blur-[100px] pointer-events-none"></div>
+            </div>
+
+            <!-- Gaming -->
+            <div class="category-card relative group overflow-hidden rounded-[2.5rem] bg-white/[0.02] border border-white/5 hover:border-purple-500/30 transition-all duration-500">
+                <div class="p-10 flex flex-col h-full">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-12 h-12 rounded-2xl bg-purple-500/10 flex items-center justify-center">
+                                <i class="fas fa-gamepad text-2xl text-purple-500"></i>
+                            </div>
+                            <h2 class="text-3xl font-bold font-outfit text-white">Gaming</h2>
+                        </div>
+                        <p class="text-gray-400 text-lg mb-8 max-w-xs">Next-gen consoles, mechanical keyboards, and immersive headsets for the ultimate gaming setup.</p>
+                        <a href="{{ url_for('market_page') }}" class="inline-flex items-center text-purple-400 font-bold hover:text-white transition-colors group/link">
+                            Explore Collection
+                            <i class="fas fa-arrow-right ml-2 group-hover/link:translate-x-2 transition-transform"></i>
+                        </a>
+                    </div>
+                    <div class="absolute -right-8 bottom-0 w-64 h-64 opacity-80 group-hover:scale-110 transition-transform duration-700">
+                        <img src="{{ url_for('static', filename='images/cat_gaming.png') }}" alt="Gaming" class="w-full h-full object-contain">
+                    </div>
+                </div>
+                <!-- Background Glow -->
+                <div class="absolute top-0 right-0 w-64 h-64 bg-purple-600/5 rounded-full blur-[100px] pointer-events-none"></div>
+            </div>
+
+            <!-- Accessories -->
+            <div class="category-card relative group overflow-hidden rounded-[2.5rem] bg-white/[0.02] border border-white/5 hover:border-orange-500/30 transition-all duration-500">
+                <div class="p-10 flex flex-col h-full">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-12 h-12 rounded-2xl bg-orange-500/10 flex items-center justify-center">
+                                <i class="fas fa-headphones text-2xl text-orange-500"></i>
+                            </div>
+                            <h2 class="text-3xl font-bold font-outfit text-white">Accessories</h2>
+                        </div>
+                        <p class="text-gray-400 text-lg mb-8 max-w-xs">Premium audio, smart wearables, and essential peripherals to complete your digital life.</p>
+                        <a href="{{ url_for('market_page') }}" class="inline-flex items-center text-orange-400 font-bold hover:text-white transition-colors group/link">
+                            Explore Collection
+                            <i class="fas fa-arrow-right ml-2 group-hover/link:translate-x-2 transition-transform"></i>
+                        </a>
+                    </div>
+                    <div class="absolute -right-8 bottom-0 w-64 h-64 opacity-80 group-hover:scale-110 transition-transform duration-700">
+                        <img src="{{ url_for('static', filename='images/cat_accessories.png') }}" alt="Accessories" class="w-full h-full object-contain">
+                    </div>
+                </div>
+                <!-- Background Glow -->
+                <div class="absolute top-0 right-0 w-64 h-64 bg-orange-600/5 rounded-full blur-[100px] pointer-events-none"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .category-card {
+        box-shadow: 0 10px 40px -15px rgba(0,0,0,0.5);
+    }
+    .category-card:hover {
+        background: rgba(255,255,255,0.04);
+        transform: translateY(-8px);
+    }
+</style>
+{% endblock %}
