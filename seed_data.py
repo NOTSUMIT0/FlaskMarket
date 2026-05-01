@@ -4,8 +4,6 @@ Refactored to support UUID-based unique barcodes and automatic seeding.
 """
 
 import uuid
-from market import app, db
-from market.models import Item, User
 
 # Sample products to add to the marketplace
 SAMPLE_PRODUCTS = [
@@ -196,6 +194,9 @@ SAMPLE_PRODUCTS = [
 
 def seed_database(interactive=True):
     """Add sample products to the database with unique UUID barcodes"""
+    from market import app, db
+    from market.models import Item
+    
     with app.app_context():
         db.create_all()
         
@@ -203,7 +204,6 @@ def seed_database(interactive=True):
         added_count = 0
         for product in SAMPLE_PRODUCTS:
             # Generate a truly unique barcode using UUID
-            # This ensures even if the name is the same, the product is a new unique stock item
             unique_barcode = str(uuid.uuid4().hex)[:16]
             
             item = Item(
@@ -222,6 +222,9 @@ def seed_database(interactive=True):
 
 def check_and_refill_stock():
     """Automatically refills stock if unowned items are low (< 10)"""
+    from market import app
+    from market.models import Item
+    
     with app.app_context():
         unowned_count = Item.query.filter_by(owner=None).count()
         if unowned_count < 10:
@@ -233,6 +236,9 @@ def check_and_refill_stock():
 
 if __name__ == "__main__":
     import sys
+    from market import app, db
+    from market.models import Item
+    
     if len(sys.argv) > 1 and sys.argv[1] == "--clear":
         with app.app_context():
             Item.query.delete()

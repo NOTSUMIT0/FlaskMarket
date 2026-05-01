@@ -16,7 +16,10 @@ def categories_page():
 
 @app.route('/deals')
 def deals_page():
-    check_and_refill_stock()
+    try:
+        check_and_refill_stock()
+    except Exception as e:
+        print(f"Stock refill failed: {e}")
     items = Item.query.filter_by(owner=None).limit(7).all()
     return render_template('deals.html', items=items)
 
@@ -76,7 +79,10 @@ def market_page():
         return redirect(url_for('market_page'))
 
     if request.method == "GET":
-        check_and_refill_stock()
+        try:
+            check_and_refill_stock()
+        except Exception as e:
+            print(f"Stock refill failed: {e}")
         items = Item.query.filter_by(owner=None).all()
         owned_items = Item.query.filter_by(owner=current_user.id).all()
         return render_template('market.html', items=items, purchase_form=purchase_form, owned_items=owned_items, selling_form=selling_form)
